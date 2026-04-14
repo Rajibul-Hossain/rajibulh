@@ -4,7 +4,12 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+body {
+    cursor: url('c.cur'), auto; 
+}
+button, a, .mc-card, .close-btn {
+    cursor: url('g.cur'), pointer;
+}
 body {
     background-color: #1e1e1e; /* Dark stone theme */
     color: #e0e0e0;
@@ -12,7 +17,6 @@ body {
     font-size: 22px;
     line-height: 1.5;
 }
-/* Navbar */
 .mc-navbar {
     background-color: #2b2b2b;
     border-bottom: 4px solid #111;
@@ -21,86 +25,59 @@ body {
     padding: 15px 40px;
     align-items: center;
 }
-/* enchanted text effect */
 .magic-txt {
-    /* gold and white gradient */
     background: linear-gradient(90deg, #51ff00, #ffffff, #428800);
     background-size: 200% auto;
-    
-    /* clip background to text */
+
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
-    /* animate the gradient */
     animation: shimmer 2s linear infinite;
     
     position: relative;
     display: inline-block;
 }
 
-/* slide the gradient to make it shine */
 @keyframes shimmer {
     to { background-position: 200% center; }
 }
-
-/* add a lil glitter sparkle */
 .magic-txt::after {
     content: '✨';
     position: absolute;
     top: -5px;
     right: -25px;
     font-size: 18px;
-    
-    /* reset color so the emoji isn't transparent */
     -webkit-text-fill-color: initial; 
-    
-    /* make it blink */
     animation: pulse 1s ease-in-out alternate infinite;
 }
 
-/* sparkle animation */
 @keyframes pulse {
     0% { opacity: 0.2; transform: scale(0.7); }
     100% { opacity: 1; transform: scale(1.2); }
 }
-
 .magic-tt {
-    /* gold and white gradient */
     background: linear-gradient(90deg, #51ff00, #ffffff, #428800);
     background-size: 200% auto;
-    
-    /* clip background to text */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
-    /* animate the gradient */
     animation: shimmer 2s linear infinite;
     
     position: relative;
     display: inline-block;
 }
-
-/* slide the gradient to make it shine */
 @keyframes shimmer {
     to { background-position: 200% center; }
 }
-
-/* add a lil glitter sparkle */
 .magic-txt::after {
     content: '✨';
     position: absolute;
     top: -5px;
     right: -25px;
     font-size: 18px;
-    
-    /* reset color so the emoji isn't transparent */
+
     -webkit-text-fill-color: initial; 
-    
-    /* make it blink */
     animation: pulse 1s ease-in-out alternate infinite;
 }
 
-/* sparkle animation */
 @keyframes pulse {
     0% { opacity: 0.2; transform: scale(0.7); }
     100% { opacity: 1; transform: scale(1.2); }
@@ -145,7 +122,6 @@ body {
     box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
 }
 
-/* Buttons */
 .mc-btn {
     background-color: #757575;
     color: #fff;
@@ -224,7 +200,6 @@ body {
     background-color: #55ff55; /* */
     height: 100%;
     border-right: 2px solid #000;
-    /* add a subtle repeating texture to look like individual XP segments */
     background-image: linear-gradient(90deg, transparent 90%, rgba(0,0,0,0.3) 90%);
     background-size: 20px 100%; 
 }
@@ -277,4 +252,208 @@ body {
     margin-top: 10px;
     font-size: 20px;
     padding: 5px 10px;
+}
+/* popup background overlay */
+.modal-bg {
+    display: none; /* hide it normally */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* dark transparent bg */
+    z-index: 100; /* keep it on top of everything */
+    justify-content: center;
+    align-items: center;
+}
+
+/* the actual popup box */
+.modal-box {
+    background-color: #2b2b2b;
+    border: 4px solid #555;
+    border-top-color: #777;
+    border-left-color: #777;
+    border-bottom-color: #111;
+    border-right-color: #111;
+    padding: 40px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+    
+    /* trigger the snappy pop animation */
+    animation: chestOpen 0.25s ease-out;
+}
+
+/* premium chest-opening pop effect */
+@keyframes chestOpen {
+    0% { 
+        transform: scale(0.8); 
+        opacity: 0; 
+    }
+    70% { 
+        transform: scale(1.02); /* slight overshoot for a premium bounce */
+        opacity: 1; 
+    }
+    100% { 
+        transform: scale(1); 
+    }
+}
+
+/* red exit button */
+.close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    color: #ff5555;
+    cursor: pointer;
+    font-size: 28px;
+    font-family: sans-serif; /* simple font for the X */
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    color: #ff0000;
+}
+/* base style for both side panels */
+.side-panel {
+    position: fixed;
+    top: 50%; /* center them vertically */
+    transform: translateY(-50%);
+    background-color: rgba(43, 43, 43, 0.8); /* slightly see-through */
+    border: 4px solid #555;
+    padding: 10px;
+    z-index: 50; /* keep them under the popup but above the background */
+}
+
+/* left hotbar specifics */
+#left-bar {
+    left: -100px; /* start hidden off-screen */
+    animation: slideInLeft 0.5s ease-out 0.5s forwards; /* 0.5s delay before popping in */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* right scoreboard specifics */
+#right-bar {
+    right: -250px; /* start hidden off-screen */
+    animation: slideInRight 0.5s ease-out 0.8s forwards; /* 0.8s delay */
+    width: 200px;
+}
+
+/* slide in animations */
+@keyframes slideInLeft {
+    to { left: 20px; }
+}
+
+@keyframes slideInRight {
+    to { right: 20px; }
+}
+
+/* left hotbar slots */
+.mc-slot {
+    width: 50px;
+    height: 50px;
+    background-color: #8b8b8b;
+    border: 4px solid #333;
+    border-top-color: #aaa;
+    border-left-color: #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.mc-slot:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* scoreboard styling */
+.scoreboard {
+    background-color: rgba(0, 0, 0, 0.6) !important; /* darker for scoreboard */
+    border: none;
+    padding: 15px;
+}
+
+.score-title {
+    color: #ffff55; /* yellow title */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.score-line {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 20px;
+}
+
+.score-num {
+    color: #ff5555; /* red numbers */
+}
+
+/* pro-tip: hide sidebars on mobile so they don't break the layout */
+@media (max-width: 900px) {
+    .side-panel {
+        display: none !important;
+    }
+}
+/* dark background for achievements */
+.achieve-overlay {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 100;
+}
+
+/* the flying achievement box */
+.achieve-box {
+    background-color: #2b2b2b;
+    border: 4px solid #555;
+    border-top-color: #777;
+    border-left-color: #777;
+    border-bottom-color: #111;
+    border-right-color: #111;
+    padding: 40px;
+    width: 80%;
+    max-width: 500px;
+    position: fixed; /* lets us move it anywhere */
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+    z-index: 101;
+    
+    /* this is the magic that makes it fly and grow smoothly */
+    transition: all 0.35s ease-in-out;
+    
+    /* start shrunk and invisible */
+    transform: scale(0);
+    opacity: 0;
+}
+.hint-box {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #555;
+    padding: 10px 20px;
+    z-index: 10;
+    /* make it bob up and down */
+    animation: floatItem 2s ease-in-out infinite;
+    pointer-events: none; /* don't block clicks */
+}
+
+.hint-txt {
+    color: #aaa;
+    font-size: 18px;
+    margin: 0;
+}
+
+/* the floating animation */
+@keyframes floatItem {
+    0%, 100% { bottom: 30px; }
+    50% { bottom: 45px; }
 }

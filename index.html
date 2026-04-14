@@ -3,33 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rajibul | Dev Portfolio</title>
+    <title>Rajibul </title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="others.css">
 </head>
 <body>
 
     <nav class="mc-navbar">
-        <h1 class="logo">Rajibul.dev</h1>
+        <h1 class="logo">Rajibul.H</h1>
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Inventory</a></li>
             <li><a href="#contact">Contact</a></li></ul>
             <div id="left-bar" class="side-panel">
-       <div class="mc-slot" onclick="openAchieve(this)">GH</div>
+       <div class="mc-slot" onclick="openAchieve(this)">W</div>
 <a href="#" class="mc-slot">IN</a> <a href="#" class="mc-slot">YT</a> </div>
 
     <div id="right-bar" class="side-panel scoreboard">
-        <h3 class="score-title">RAJIBUL.DEV</h3>
+        <h3 class="score-title">RAJIBUL.H</h3>
         <p class="score-line"><span class="score-name">Level</span> <span class="score-num">10</span></p>
-        <p class="score-line"><span class="score-name">Role</span> <span class="score-num">Dev</span></p>
-        <p class="score-line"><span class="score-name">Ping</span> <span class="score-num">12ms</span></p>
+        <p class="score-line"><span class="score-name">Role</span> <span class="score-num">Student</span></p>
+        <p class="score-line"><span class="score-name">Ping</span> <span class="score-num">999ms</span></p>
     </div>
     </nav>
     <header class="hero-section">
         <div class="mc-container">
             <h2>Student <span class="magic-txt">Level 10</span></h2>
             <p>Just entered Class 10… chasing 95+ while my projects chase bugs.</p>
+            <div class="hint-box">
+    <p class="hint-txt">? Try typing <span class="magic-tt">goat</span></p>
+</div>
             <button class="mc-btn" onclick="clickBtn()">
     <span class="magic-tt">View Projects</span>
 </button>
@@ -62,20 +66,17 @@
     </section>
     <section id="projects" class="projects-section">
         <h2 class="section-title">My Inventory (Projects)</h2>
-        <div class="grid-container">
-            
+        <div class="grid-container">     
 <div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
          onclick="openPop('Botani Talk', 'ESP32-based smart plant monitor. Features an AI dashboard with emotional plant status updates, wrapped in a clean Botanical Light UI aesthetic.')">
         <h3>Botani Talk</h3>
         <p>Click for details...</p>
     </div>
-
     <div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
          onclick="openPop('HamaraLabs', 'Production-level digital platform for Atal Tinkering Labs (ATL). Built to seamlessly handle task generation and management between mentors and students.')">
         <h3>HamaraLabs</h3>
         <p>Click for details...</p>
     </div>
-
     <div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
          onclick="openPop('Eye-Controlled Wheelchair', 'Hardware-software integration using Python computer vision and Arduino. Uses an L298N motor driver and webcam tracking to navigate via eye movements.')">
         <h3>Eye-Controlled Wheelchair</h3>
