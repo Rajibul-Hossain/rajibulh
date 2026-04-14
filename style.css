@@ -1,0 +1,280 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1e1e1e; /* Dark stone theme */
+    color: #e0e0e0;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    line-height: 1.5;
+}
+/* Navbar */
+.mc-navbar {
+    background-color: #2b2b2b;
+    border-bottom: 4px solid #111;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 40px;
+    align-items: center;
+}
+/* enchanted text effect */
+.magic-txt {
+    /* gold and white gradient */
+    background: linear-gradient(90deg, #51ff00, #ffffff, #428800);
+    background-size: 200% auto;
+    
+    /* clip background to text */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* animate the gradient */
+    animation: shimmer 2s linear infinite;
+    
+    position: relative;
+    display: inline-block;
+}
+
+/* slide the gradient to make it shine */
+@keyframes shimmer {
+    to { background-position: 200% center; }
+}
+
+/* add a lil glitter sparkle */
+.magic-txt::after {
+    content: '✨';
+    position: absolute;
+    top: -5px;
+    right: -25px;
+    font-size: 18px;
+    
+    /* reset color so the emoji isn't transparent */
+    -webkit-text-fill-color: initial; 
+    
+    /* make it blink */
+    animation: pulse 1s ease-in-out alternate infinite;
+}
+
+/* sparkle animation */
+@keyframes pulse {
+    0% { opacity: 0.2; transform: scale(0.7); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+.magic-tt {
+    /* gold and white gradient */
+    background: linear-gradient(90deg, #51ff00, #ffffff, #428800);
+    background-size: 200% auto;
+    
+    /* clip background to text */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* animate the gradient */
+    animation: shimmer 2s linear infinite;
+    
+    position: relative;
+    display: inline-block;
+}
+
+/* slide the gradient to make it shine */
+@keyframes shimmer {
+    to { background-position: 200% center; }
+}
+
+/* add a lil glitter sparkle */
+.magic-txt::after {
+    content: '✨';
+    position: absolute;
+    top: -5px;
+    right: -25px;
+    font-size: 18px;
+    
+    /* reset color so the emoji isn't transparent */
+    -webkit-text-fill-color: initial; 
+    
+    /* make it blink */
+    animation: pulse 1s ease-in-out alternate infinite;
+}
+
+/* sparkle animation */
+@keyframes pulse {
+    0% { opacity: 0.2; transform: scale(0.7); }
+    100% { opacity: 1; transform: scale(1.2); }
+}  
+
+.logo {
+    color: #55ff55; /* green text */
+    text-shadow: 2px 2px #000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 2px 2px #000;
+}
+
+.nav-links a:hover {
+    color: #ffff55; /* on hover */
+}
+
+.hero-section {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.mc-container {
+    background-color: #3b3b3b;
+    border: 4px solid #555;
+    border-top-color: #777;
+    border-left-color: #777;
+    border-bottom-color: #111;
+    border-right-color: #111;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+}
+
+/* Buttons */
+.mc-btn {
+    background-color: #757575;
+    color: #fff;
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border: 4px solid #333;
+    border-top-color: #999;
+    border-left-color: #999;
+    text-shadow: 2px 2px #000;
+}
+
+.mc-btn:active {
+    border-top-color: #333;
+    border-left-color: #333;
+    border-bottom-color: #999;
+    border-right-color: #999;
+    background-color: #656565;
+}
+
+.projects-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.section-title {
+    margin-bottom: 30px;
+    text-shadow: 2px 2px #000;
+}
+
+.grid-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.mc-card {
+    background-color: #2b2b2b;
+    width: 300px;
+    padding: 20px;
+    border: 4px solid #111;
+    box-shadow: inset 4px 4px #444, inset -4px -4px #111;
+    transition: transform 0.1s ease;
+}
+
+.mc-card h3 {
+    color: #55ff55;
+    text-shadow: 2px 2px #000;
+    margin-bottom: 10px;
+}
+.skills-section {
+    padding: 20px;
+    text-align: center;
+}
+.skill {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.skill-name {
+    color: #fff;
+    text-shadow: 2px 2px #000;
+}
+.xp-bar-bg {
+    background-color: #000;
+    border: 4px solid #333;
+    height: 30px;
+    width: 100%;
+    margin-top: 5px;
+    position: relative;
+}
+.xp-bar-fill {
+    background-color: #55ff55; /* */
+    height: 100%;
+    border-right: 2px solid #000;
+    /* add a subtle repeating texture to look like individual XP segments */
+    background-image: linear-gradient(90deg, transparent 90%, rgba(0,0,0,0.3) 90%);
+    background-size: 20px 100%; 
+}
+/* cntact Form */
+.contact-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.mc-sign {
+    background-color: #8b5a2b; /* Oak wood color */
+    border: 6px solid #5c3a21; /* Darker wood border */
+    padding: 30px;
+    width: 350px;
+    margin: 0 auto;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+    /* Make it look like it's on a stick */
+    position: relative;
+}
+
+.mc-sign::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 50px;
+    background-color: #5c3a21;
+    z-index: -1;
+}
+
+.mc-sign input, .mc-sign textarea {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: #000;
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    outline: none;
+    resize: none;
+    text-align: center;
+}
+
+.mc-sign input::placeholder, .mc-sign textarea::placeholder {
+    color: #333;
+}
+
+.sign-btn {
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 5px 10px;
+}
