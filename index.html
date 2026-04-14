@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajibul | Dev Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="mc-navbar">
+        <h1 class="logo">Rajibul.dev</h1>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Inventory</a></li>
+            <li><a href="#contact">Contact</a></li></ul>
+    </nav>
+    <header class="hero-section">
+        <div class="mc-container">
+            <h2>Student <span class="magic-txt">Level 10</span></h2>
+            <p>Just entered Class 10… chasing 95+ while my projects chase bugs.</p>
+            <button class="mc-btn" onclick="clickBtn()">
+    <span class="magic-tt">View Projects</span>
+</button>
+        </div>
+    </header>
+<section id="skills" class="skills-section">
+        <h2 class="section-title">Player Stats</h2>
+        <div class="mc-container">
+            
+            <div class="skill">
+                <span class="skill-name">JavaScript & DOM</span>
+                <div class="xp-bar-bg">
+                    <div class="xp-bar-fill" style="width: 90%;"></div> 
+                </div>
+            </div>
+            <div class="skill">
+                <span class="skill-name">IoT & Hardware (ESP32/Arduino)</span>
+                <div class="xp-bar-bg">
+                    <div class="xp-bar-fill" style="width: 85%;"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <span class="skill-name">Backend & Real-time DB</span>
+                <div class="xp-bar-bg">
+                    <div class="xp-bar-fill" style="width: 75%;"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section id="projects" class="projects-section">
+        <h2 class="section-title">My Inventory (Projects)</h2>
+        <div class="grid-container">
+            
+            <div class="mc-card" onmouseover="hoverEffect(this)" onmouseout="removeHoverEffect(this)">
+                <h3>Botani Talk</h3>
+                <p>ESP32-based smart plant monitor with an AI dashboard for emotional plant updates.</p>
+            </div>
+
+            <div class="mc-card" onmouseover="hoverEffect(this)" onmouseout="removeHoverEffect(this)">
+                <h3>HamaraLabs</h3>
+                <p>Digital platform for Atal Tinkering Labs to manage tasks between mentors and students.</p>
+            </div>
+            <div class="mc-card" onmouseover="hoverEffect(this)" onmouseout="removeHoverEffect(this)">
+                <h3>Eye-Controlled Wheelchair</h3>
+                <p>Computer vision hardware-software integration using Python and Arduino.</p>
+            </div>
+        </div>
+    </section>
+<section id="contact" class="contact-section">
+        <h2 class="section-title">Leave a Message</h2>
+        <div class="mc-sign">
+            <form id="contactForm" onsubmit="submitMessage(event)">
+                <input type="text" id="visitorName" placeholder="Player Name" required>
+                <textarea id="visitorMessage" rows="4" placeholder="Type message..." required></textarea>
+                <button type="submit" class="mc-btn sign-btn">Place Sign</button>
+            </form>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
