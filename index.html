@@ -35,54 +35,83 @@
     <p class="hint-txt">? Try typing <span class="magic-tt">goat</span></p>
 </div>
             <button class="mc-btn" onclick="clickBtn()">
-    <span class="magic-tt">View Projects</span>
-</button>
-        </div>
+ <a href="https://github.com/rajibul-hossain" target="_blank" rel="noopener noreferrer" class="magic-tt">Github</a></button> </div>
     </header>
 <section class="dashboard-wrapper">
-        <div class="dashboard-row">
-            
+        <div class="dashboard-row">       
             <div class="dash-col" id="skills">
                 <h2 class="section-title">Player Stats</h2>
                 <div class="mc-container" style="margin: 0; height: 100%;">
                     
                     <div class="skill">
-                        <span class="skill-name">JavaScript & DOM</span>
-                        <div class="xp-bar-bg">
+                         <span class="skill-name">JavaScript (Vanilla, DOM, UI Logic)</span>
+                            <div class="xp-bar-bg">
                             <div class="xp-bar-fill" style="width: 90%;"></div> 
-                        </div>
                     </div>
-                    
-                    <div class="skill">
-                        <span class="skill-name">IoT & Hardware</span>
-                        <div class="xp-bar-bg">
-                            <div class="xp-bar-fill" style="width: 85%;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="skill">
-                        <span class="skill-name">Backend & DB</span>
-                        <div class="xp-bar-bg">
-                            <div class="xp-bar-fill" style="width: 75%;"></div>
-                        </div>
-                    </div>
+                </div>
 
+                <div class="skill">
+                         <span class="skill-name">HTML5, CSS3 (Responsive + Animations)</span>
+                         <div class="xp-bar-bg">
+                         <div class="xp-bar-fill" style="width: 88%;"></div>
+                         </div>
+                </div>
+
+                <div class="skill">
+                         <span class="skill-name">Firebase (Auth, Firestore, Hosting)</span>
+                         <div class="xp-bar-bg">
+                         <div class="xp-bar-fill" style="width: 80%;"></div>
+                        </div>
+                </div>
+
+                <div class="skill">
+                         <span class="skill-name">IoT (ESP8266 / ESP-12E, Sensors)</span>
+                         <div class="xp-bar-bg">
+                         <div class="xp-bar-fill" style="width: 85%;"></div>
+                         </div>
+                        </div>
+
+                <div class="skill">
+                         <span class="skill-name">Raspberry Pi (Server, DNS, File Sharing)</span>
+                         <div class="xp-bar-bg">
+                         <div class="xp-bar-fill" style="width: 82%;"></div>
+                         </div>
+                         </div>
+
+                <div class="skill">
+                         <span class="skill-name">Backend Basics (Node.js, APIs)</span>
+                         <div class="xp-bar-bg">
+                         <div class="xp-bar-fill" style="width: 70%;"></div>
+                         </div>
+                         </div>
+
+                <div class="skill">
+                         <span class="skill-name">Git & GitHub (Projects, Version Control)</span>
+                         <div class="xp-bar-bg">
+                         <div class="xp-bar-fill" style="width: 78%;"></div>
+                         </div>
+                        </div>
+
+                <div class="skill">
+                         <span class="skill-name">UI/UX Design (Clean + Themed Interfaces)</span>
+                         <div class="xp-bar-bg">
+                         <div class="xp-bar-fill" style="width: 83%;"></div>
+                         </div>
+                         </div>
                 </div>
             </div>
-
             <div class="dash-col">
                 <h2 class="section-title">Console</h2>
                 <div class="mc-terminal" style="height: 100%;">
-                    <div class="term-header">
-                        <span class="redstone-dot"></span> Redstone.exe
-                    </div>
-                    
+                <div class="term-header" id="termHeader">
+                <span class="redstone-dot"></span> Redstone.exe
+                <span id="pinBtn" style="margin-left: auto; cursor: pointer; filter: grayscale(100%);" onclick="togglePin()">Click Me📌</span>
+                </div>
                     <div class="term-body" id="termLog">
                         <p class="term-txt">Booting Redstone OS...</p>
                         <p class="term-txt">System ready.</p>
                         <p class="term-hint">Hint: Try typing  <span class="cmd-hl">/help</span><span class="cmd-hl"></span></p>
                     </div>
-                    
                     <div class="term-input-line">
                         <span class="term-prompt">C:\Rajibul></span>
                         <input type="text" id="termInput" autocomplete="off" onkeypress="runCmd(event)">
@@ -210,5 +239,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="ui.js"></script>
 </body>
 </html>
