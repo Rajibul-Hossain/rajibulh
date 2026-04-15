@@ -39,26 +39,54 @@
 </button>
         </div>
     </header>
-<section id="skills" class="skills-section">
-        <h2 class="section-title">Player Stats</h2>
-        <div class="mc-container">
+<section class="dashboard-wrapper">
+        <div class="dashboard-row">
             
-            <div class="skill">
-                <span class="skill-name">JavaScript & DOM</span>
-                <div class="xp-bar-bg">
-                    <div class="xp-bar-fill" style="width: 90%;"></div> 
+            <div class="dash-col" id="skills">
+                <h2 class="section-title">Player Stats</h2>
+                <div class="mc-container" style="margin: 0; height: 100%;">
+                    
+                    <div class="skill">
+                        <span class="skill-name">JavaScript & DOM</span>
+                        <div class="xp-bar-bg">
+                            <div class="xp-bar-fill" style="width: 90%;"></div> 
+                        </div>
+                    </div>
+                    
+                    <div class="skill">
+                        <span class="skill-name">IoT & Hardware</span>
+                        <div class="xp-bar-bg">
+                            <div class="xp-bar-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill">
+                        <span class="skill-name">Backend & DB</span>
+                        <div class="xp-bar-bg">
+                            <div class="xp-bar-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="skill">
-                <span class="skill-name">IoT & Hardware (ESP32/Arduino)</span>
-                <div class="xp-bar-bg">
-                    <div class="xp-bar-fill" style="width: 85%;"></div>
-                </div>
-            </div>
-            <div class="skill">
-                <span class="skill-name">Backend & Real-time DB</span>
-                <div class="xp-bar-bg">
-                    <div class="xp-bar-fill" style="width: 75%;"></div>
+
+            <div class="dash-col">
+                <h2 class="section-title">Console</h2>
+                <div class="mc-terminal" style="height: 100%;">
+                    <div class="term-header">
+                        <span class="redstone-dot"></span> Redstone.exe
+                    </div>
+                    
+                    <div class="term-body" id="termLog">
+                        <p class="term-txt">Booting Redstone OS...</p>
+                        <p class="term-txt">System ready.</p>
+                        <p class="term-hint">Hint: Try typing  <span class="cmd-hl">/help</span><span class="cmd-hl"></span></p>
+                    </div>
+                    
+                    <div class="term-input-line">
+                        <span class="term-prompt">C:\Rajibul></span>
+                        <input type="text" id="termInput" autocomplete="off" onkeypress="runCmd(event)">
+                    </div>
                 </div>
             </div>
 
@@ -68,22 +96,43 @@
         <h2 class="section-title">My Inventory (Projects)</h2>
         <div class="grid-container">     
 <div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
-         onclick="openPop('Botani Talk', 'ESP32-based smart plant monitor. Features an AI dashboard with emotional plant status updates, wrapped in a clean Botanical Light UI aesthetic.')">
-        <h3>Botani Talk</h3>
-        <p>Click for details...</p>
-    </div>
-    <div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
-         onclick="openPop('HamaraLabs', 'Production-level digital platform for Atal Tinkering Labs (ATL). Built to seamlessly handle task generation and management between mentors and students.')">
-        <h3>HamaraLabs</h3>
-        <p>Click for details...</p>
-    </div>
-    <div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
-         onclick="openPop('Eye-Controlled Wheelchair', 'Hardware-software integration using Python computer vision and Arduino. Uses an L298N motor driver and webcam tracking to navigate via eye movements.')">
-        <h3>Eye-Controlled Wheelchair</h3>
-        <p>Click for details...</p>
-    </div>
+     onclick="openPop('Botani Talk', 'ESP32-based smart plant monitor. Features an AI dashboard with emotional plant status updates, wrapped in a clean Botanical Light UI aesthetic.')">
+    <h3>Botani Talk</h3>
+    <p>Click for details...</p>
+</div>
+
+<div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
+     onclick="openPop('HamaraLabs', 'Production-level digital platform for Atal Tinkering Labs (ATL). Built to seamlessly handle task generation and management between mentors and students.')">
+    <h3>HamaraLabs</h3>
+    <p>Click for details...</p>
+</div>
+
+<div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
+     onclick="openPop('Eye-Controlled Wheelchair', 'Hardware-software integration using Python computer vision and Arduino. Uses an L298N motor driver and webcam tracking to navigate via eye movements.')">
+    <h3>Eye-Controlled Wheelchair</h3>
+    <p>Click for details...</p>
+</div>
+
+<div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
+     onclick="openPop('Gradians AI', 'AI-powered learning assistant designed to simplify complex topics into structured, easy-to-understand concepts with adaptive explanations.')">
+    <h3>Gradians AI</h3>
+    <p>Click for details...</p>
+</div>
+
+<div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
+     onclick="openPop('AutoNotes AI', 'Smart note-generation system that converts lectures, PDFs, and raw content into clean, structured, exam-ready notes using AI processing.')">
+    <h3>AutoNotes AI</h3>
+    <p>Click for details...</p>
+</div>
+
+<div class="mc-card" onmouseover="onHover(this)" onmouseout="offHover(this)" 
+     onclick="openPop('Optica', 'Computer vision-based intelligent system focused on real-time object detection, visual insights, and automation using optimized AI models.')">
+    <h3>Optica</h3>
+    <p>Click for details...</p>
+</div>
         </div>
     </section>
+
 <section id="contact" class="contact-section">
         <h2 class="section-title">Leave a Message</h2>
         <div class="mc-sign">
@@ -117,6 +166,48 @@
          <li>🏆 <b>Hackathon Builder</b> – Smart Bengal Hackathon</li>
          <li>🏆 <b>Winter Camper</b> – Winter Camp 2023</li>
         </ul>
+    </div>
+    <div id="craftingUI" class="craft-overlay">
+        
+        <div class="craft-header">
+            <h2>🛠️ Crafting Table Logs</h2>
+            <span class="close-btn" onclick="closeCrafting()">X</span>
+        </div>
+
+        <div class="craft-body">
+            
+            <div class="recipe-book">
+                <h3>Recipe Book</h3>
+                <div class="recipe-slot active-recipe" onclick="loadLog('botani', this)">🌿 Botani Talk</div>
+                <div class="recipe-slot" onclick="loadLog('hamara', this)">🏫 HamaraLabs</div>
+                <div class="recipe-slot" onclick="loadLog('wheel', this)">♿ Wheelchair</div>
+            </div>
+
+            <div class="log-display">
+                <h2 id="logTitle" class="magic-tt">Botani Talk</h2>
+                
+                <div class="log-section">
+                    <h3 class="log-heading">Recipe (Tech Stack)</h3>
+                    <p id="logRecipe">ESP32 + Soil Moisture Sensor + Real-time DB + AI API</p>
+                </div>
+
+                <div class="log-section">
+                    <h3 class="log-heading">Why I built it</h3>
+                    <p id="logWhy">My plants kept dying because I forgot to water them. I wanted a system that didn't just show boring data, but actually gave the plant an "emotional" voice to yell at me when it was thirsty.</p>
+                </div>
+
+                <div class="log-section">
+                    <h3 class="log-heading">Problems Faced</h3>
+                    <p id="logProb">The cheap analog soil sensors kept corroding within a week due to electrolysis. Also, sending too many requests to the AI API was causing rate limits.</p>
+                </div>
+
+                <div class="log-section">
+                    <h3 class="log-heading">Trade-offs Made</h3>
+                    <p id="logTrade">Instead of leaving the sensor powered on 24/7 (which causes the corrosion), I coded the ESP32 to only send power to the sensor for 1 second every hour to take a reading. This saved the hardware but meant the data isn't down-to-the-second live.</p>
+                </div>
+            </div>
+            
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
