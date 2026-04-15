@@ -526,6 +526,16 @@ body {
     padding: 15px;
     border-left: 4px solid #55ff55;
 }
-
 .log-heading { color: #aaa; margin-bottom: 10px; font-size: 24px; }
 .log-display p { color: #fff; font-size: 20px; }
+.mc-terminal.minimized {
+    height: 45px !important; 
+    min-height: 0; 
+    overflow: hidden;
+}
+.mc-terminal.minimized input {
+    pointer-events: none; 
+}
+.mc-terminal.floating.minimized {
+    height: 45px !important;
+}
