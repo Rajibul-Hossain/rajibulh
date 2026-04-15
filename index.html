@@ -17,8 +17,11 @@
             <li><a href="#projects">Inventory</a></li>
             <li><a href="#contact">Contact</a></li></ul>
             <div id="left-bar" class="side-panel">
-       <div class="mc-slot" onclick="openAchieve(this)">W</div>
-<a href="#" class="mc-slot">IN</a> <a href="#" class="mc-slot">YT</a> </div>
+        <div class="mc-slot" id="gh-btn" onclick="openAchieve(this)">
+        W
+        <span class="gh-tooltip">View Achievements</span></div>
+        <div class="mc-slot" onclick="openSystemStatus()">IN<span class="in-tooltip">System Status</span></div>
+    <a href="#" class="mc-slot">YT</a> </div>
 
     <div id="right-bar" class="side-panel scoreboard">
         <h3 class="score-title">RAJIBUL.H</h3>
@@ -46,7 +49,7 @@
                     <div class="skill">
                          <span class="skill-name">JavaScript (Vanilla, DOM, UI Logic)</span>
                             <div class="xp-bar-bg">
-                            <div class="xp-bar-fill" style="width: 90%;"></div> 
+                            <div class="xp-bar-fill" style="width: 95%;"></div> 
                     </div>
                 </div>
 
@@ -57,19 +60,6 @@
                          </div>
                 </div>
 
-                <div class="skill">
-                         <span class="skill-name">Firebase (Auth, Firestore, Hosting)</span>
-                         <div class="xp-bar-bg">
-                         <div class="xp-bar-fill" style="width: 80%;"></div>
-                        </div>
-                </div>
-
-                <div class="skill">
-                         <span class="skill-name">IoT (ESP8266 / ESP-12E, Sensors)</span>
-                         <div class="xp-bar-bg">
-                         <div class="xp-bar-fill" style="width: 85%;"></div>
-                         </div>
-                        </div>
 
                 <div class="skill">
                          <span class="skill-name">Raspberry Pi (Server, DNS, File Sharing)</span>
@@ -79,18 +69,11 @@
                          </div>
 
                 <div class="skill">
-                         <span class="skill-name">Backend Basics (Node.js, APIs)</span>
+                         <span class="skill-name">Backend Basics (Node.js, APIs), Git & GitHub (Projects, Version Control)</span>
                          <div class="xp-bar-bg">
                          <div class="xp-bar-fill" style="width: 70%;"></div>
                          </div>
                          </div>
-
-                <div class="skill">
-                         <span class="skill-name">Git & GitHub (Projects, Version Control)</span>
-                         <div class="xp-bar-bg">
-                         <div class="xp-bar-fill" style="width: 78%;"></div>
-                         </div>
-                        </div>
 
                 <div class="skill">
                          <span class="skill-name">UI/UX Design (Clean + Themed Interfaces)</span>
@@ -104,11 +87,13 @@
                 <h2 class="section-title">Console</h2>
                 <div class="mc-terminal" style="height: 100%;">
                 <div class="term-header" id="termHeader">
-                <span class="redstone-dot"></span> Redstone.exe
-                <span id="pinBtn" style="margin-left: auto; cursor: pointer; filter: grayscale(100%);" onclick="togglePin()">Click Me📌</span>
+                <span class="redstone-dot"></span> Rajibul.exe
+                
+                <span id="pinBtn" style="margin-left: auto; cursor: pointer; filter: grayscale(100%);" onclick="pin()">Click Me📌</span>
+                <span id="minBtn" style="cursor: pointer; font-weight: bold; position: relative; top: -5px;" onclick="minimize()">Minimise</span>
                 </div>
                     <div class="term-body" id="termLog">
-                        <p class="term-txt">Booting Redstone OS...</p>
+                        <p class="term-txt">Booting  OS...</p>
                         <p class="term-txt">System ready.</p>
                         <p class="term-hint">Hint: Try typing  <span class="cmd-hl">/help</span><span class="cmd-hl"></span></p>
                     </div>
@@ -236,6 +221,32 @@
                 </div>
             </div>
             
+        </div>
+    </div>
+    <div id="sysBg" class="achieve-overlay"></div>
+    <div id="sysBox" class="sys-box">
+        <div class="sys-header">
+            <h2>⚙️ Live System Status</h2>
+            <span class="close-btn" onclick="closeSystemStatus()">X</span>
+        </div>
+        
+        <div class="sys-grid">
+            <div class="sys-item">
+                <span class="sys-label">Active Projects</span>
+                <span class="sys-val" style="color: #ffff55;">03</span>
+            </div>
+            <div class="sys-item">
+                <span class="sys-label">Pi 3B Server</span>
+                <span class="sys-val glow-green" id="piStatusText">Checking...</span>
+            </div>
+            <div class="sys-item">
+                <span class="sys-label">System Uptime</span>
+                <span class="sys-val" id="liveUptime">14d 0h 0m 0s</span>
+            </div>
+            <div class="sys-item">
+                <span class="sys-label">AI Usage</span>
+                <span class="sys-val" style="color: #ffaa00;">~30% (Rest Handcrafted)</span>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>

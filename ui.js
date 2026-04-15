@@ -61,3 +61,19 @@ function minimize() {
         term.classList.remove('minimized');
     }
 }
+function openSystemStatus() {
+    let bg = document.getElementById("sysBg");
+    let box = document.getElementById("sysBox");
+    bg.style.display = "block";
+    setTimeout(() => {
+        box.classList.add("show-sys");
+    }, 10);
+}
+function closeSystemStatus() {
+    let bg = document.getElementById("sysBg");
+    let box = document.getElementById("sysBox");
+    box.classList.remove("show-sys");
+    setTimeout(() => {
+        bg.style.display = "none";
+    }, 300);
+}

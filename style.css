@@ -425,10 +425,8 @@ body {
     box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
     z-index: 101;
     
-    /* this is the magic that makes it fly and grow smoothly */
     transition: all 0.35s ease-in-out;
     
-    /* start shrunk and invisible */
     transform: scale(0);
     opacity: 0;
 }
@@ -441,7 +439,6 @@ body {
     border: 2px solid #555;
     padding: 10px 20px;
     z-index: 10;
-    /* make it bob up and down */
     animation: floatItem 2s ease-in-out infinite;
     pointer-events: none; /* don't block clicks */
 }
@@ -452,12 +449,10 @@ body {
     margin: 0;
 }
 
-/* the floating animation */
 @keyframes floatItem {
     0%, 100% { bottom: 30px; }
     50% { bottom: 45px; }
 }
-/* Full-screen Crafting UI */
 .craft-overlay {
     display: none; /* hidden normally */
     position: fixed;
@@ -465,7 +460,7 @@ body {
     width: 100vw; 
     height: 100vh;
     background-color: #1e1e1e; /* solid dark background */
-    z-index: 3000; /* on top of literally everything */
+    z-index: 3000; 
     flex-direction: column;
 }
 
@@ -485,8 +480,6 @@ body {
     gap: 20px;
     overflow: hidden; /* prevents weird scrolling */
 }
-
-/* Left sidebar: Recipe Book */
 .recipe-book {
     width: 250px;
     background-color: #2b2b2b;
@@ -511,7 +504,6 @@ body {
 .recipe-slot:hover { background-color: #555; color: #fff; }
 .active-recipe { border-color: #55ff55; color: #fff; background-color: #444; }
 
-/* Right side: Reading area */
 .log-display {
     flex-grow: 1;
     background-color: #222;
@@ -538,4 +530,38 @@ body {
 }
 .mc-terminal.floating.minimized {
     height: 45px !important;
+}
+
+#in-btn {
+    position: relative; /* Anchors the tooltip */
+}
+
+.in-tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); 
+    left: 120%; 
+    
+    background-color: #55ff55; /* Hacker Green! */
+    color: #111;
+    padding: 4px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap; 
+    border: 2px solid #fff;
+    pointer-events: none; 
+    z-index: 100;
+    animation: peepBounce 1.5s ease-in-out infinite;
+    animation-delay: 0.75s; 
+}
+
+.in-tooltip::before {
+    content: '';
+    position: absolute;
+    right: 100%; 
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #55ff55 transparent transparent;
 }

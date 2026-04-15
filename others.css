@@ -1,81 +1,414 @@
 @media (max-width: 768px) {
     .side-panel {
         display: flex !important;
-        top: 40%; 
-        /* transition for that "liquid" feel */
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-        background-color: rgba(30, 30, 30, 0.9);
-        backdrop-filter: blur(10px); /* high-end glass effect */
-        border: 2px solid #55ff55; /* glowing green border */
+        top: 40%;
+        transition: all 0.4s ease;
+        background: rgba(30, 30, 30, 0.9);
+        backdrop-filter: blur(10px);
+        border: 2px solid #55ff55;
     }
-
-    /* Left bar peek position */
+.gh-tooltip {
+        display: none;
+    }
     #left-bar {
-        left: -55px;
+        left: -60px;
         border-radius: 0 10px 10px 0;
     }
 
-    /* Right bar peek position */
     #right-bar {
-        right: -175px;
+        right: -180px;
         border-radius: 10px 0 0 10px;
     }
 
-    /* THE FIX: When active, make them look like a clean "Slide-out Menu" */
     .side-panel.active-mobile {
-        left: 0 !important;
-        right: 0 !important;
-        top: 0 !important;
-        bottom: 0 !important;
-        width: 70% !important; /* Don't cover the whole screen, looks better */
-        height: 100vh !important;
-        transform: none !important;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 75%;
+        height: 100vh;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 30px;
+        gap: 24px;
         z-index: 200;
         border: none;
+        transform: translateX(0);
+    }
+
+    #left-bar.active-mobile {
+        left: 0;
         border-right: 4px solid #55ff55;
     }
 
-    /* Adjust the right one to slide from right */
     #right-bar.active-mobile {
-        left: auto !important;
-        right: 0 !important;
-        border-right: none;
+        right: 0;
         border-left: 4px solid #ff5555;
     }
 
-    /* Hide the text until it's expanded so it doesn't look weird while peeking */
     .side-panel:not(.active-mobile) * {
         opacity: 0;
+        pointer-events: none;
     }
 
     .side-panel.active-mobile * {
         opacity: 1;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.25s ease;
+    }
+
+    .dashboard-wrapper {
+        padding: 20px;
+    }
+
+    .dashboard-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .dash-col {
+        width: 100%;
+    }
+
+    .mc-terminal {
+        font-size: 18px;
+    }
+
+    .term-body {
+        height: 180px;
     }
 }
-/* width */
-::-webkit-scrollbar {
-    width: 16px;
+
+@media (max-width: 480px) {
+    .mc-terminal {
+        font-size: 16px;
+    }
+
+    .term-body {
+        height: 150px;
+    }
+
+    .dashboard-wrapper {
+        padding: 15px;
+    }
 }
 
-/* Track (the part the bar slides in) */
-::-webkit-scrollbar-track {
-    background: #1e1e1e; 
-    border-left: 4px solid #111;
+::-webkit-scrollbar {
+    width: 14px;
 }
- 
-/* Handle (the part you grab) */
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+    border-left: 3px solid #111;
+}
+
 ::-webkit-scrollbar-thumb {
-    background: #444; 
-    border: 4px solid #111;
-    border-top-color: #666;
-    border-left-color: #666;
+    background: #444;
+    border: 3px solid #111;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.terminal-wrapper {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.mc-terminal {
+    background-color: #0c0c0c;
+    border: 4px solid #333;
+    width: 100%;
+    /* 1. Force it to be a flex column */
+    display: flex;
+    flex-direction: column;
+    /* 2. Lock the height so it matches your Player Stats and never grows */
+    height: 100%; 
+    max-height: 450px; 
+    box-shadow: inset 0 0 15px rgba(0,0,0,1);
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+}
+
+.term-body {
+    padding: 15px;
+    color: #ccc;
+    /* 3. The Magic Scroll Fix */
+    flex-grow: 1; /* stretches to fill leftover space */
+    overflow-y: auto; /* adds the scrollbar */
+    min-height: 0; /* stops it from pushing past the bottom of the terminal */
+}
+
+
+.term-header {
+    background: #222;
+    padding: 6px 10px;
+    color: #888;
+    border-bottom: 2px solid #444;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.redstone-dot {
+    width: 14px;
+    height: 14px;
+    background: #ff5555;
+    border-radius: 50%;
+}
+/* chat log area */
+.term-body {
+    padding: 15px;
+    flex-grow: 1; 
+    overflow-y: auto;
+    color: #ccc;
+}
+
+.term-txt {
+    margin-bottom: 5px;
+}
+
+.term-hint {
+    color: #55ff55;
+    margin-bottom: 12px;
+}
+
+.cmd-hl {
+    color: #ffff55;
+}
+
+.term-input-line {
+    display: flex;
+    padding: 0 15px 15px;
+}
+
+.term-prompt {
+    color: #55ff55;
+    margin-right: 8px;
+}
+
+#termInput {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    flex: 1;
+    outline: none;
+}
+
+.dashboard-wrapper {
+    padding: 20px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboard-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 30px;
+    align-items: stretch;
+}
+
+.dash-col {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .dashboard-row {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+  .gh-tooltip {
+        display: none;
+    }
+    .dash-col {
+        width: 100%;
+    }
+    .gh-tooltip, .in-tooltip {
+        display: none;
+    }
+
+    .dash-col .mc-terminal,
+    .dash-col .mc-container {
+        width: 100%;
+    }
+}
+    .craft-body {
+        flex-direction: column; 
+        overflow-y: auto; 
+    }
+
+    .recipe-book {
+        width: 100%; 
+        flex-direction: row; 
+        overflow-x: auto; 
+        border-right-color: #555;
+        border-bottom-color: #111;
+        padding: 10px;
+    }
+
+    .recipe-slot {
+        white-space: nowrap; 
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    .log-display {
+        overflow-y: visible; 
+        border-top-color: #555;
+    }
+
+.mc-terminal.floating {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 450px !important; 
+    height: 350px !important;
+    z-index: 9999; 
+    box-shadow: -10px 10px 30px rgba(0,0,0,0.8);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 0;
+}
+.mc-terminal.floating .term-header {
+    cursor: grab;
+}
+.mc-terminal.floating .term-header:active {
+    cursor: grabbing;
+}
+.dash-col {
+    transition: width 0.5s ease;
+}
+/*  scrollbar just for the terminal */
+.term-body::-webkit-scrollbar {
+    width: 12px;
+}
+.term-body::-webkit-scrollbar-track {
+    background: #0c0c0c; 
+    border-left: 1px solid #222;
+}
+.term-body::-webkit-scrollbar-thumb {
+    background: #333; 
+    border: 2px solid #0c0c0c;
+}
+.term-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#gh-btn {
+    position: relative; 
+}
+
+.gh-tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 120%; 
+    
+    background-color: #ffaa00; 
+    color: #111;
+    padding: 4px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap; 
+    border: 2px solid #fff;
+    pointer-events: none; 
+    z-index: 100;
+
+    animation: peepBounce 1.5s ease-in-out infinite;
+}
+.gh-tooltip::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #ffaa00 transparent transparent;
+}
+@keyframes peepBounce {
+    0%, 100% { left: 120%; }
+    50% { left: 135%; } 
+}
+
+/* --- System Status Modal --- */
+.sys-box {
+    background-color: #1e1e1e;
+    border: 4px solid #555;
+    border-top-color: #777;
+    border-left-color: #777;
+    border-bottom-color: #111;
+    border-right-color: #111;
+    width: 90%;
+    max-width: 450px;
+    
+    /* Center it perfectly */
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* starts shrunk */
+    
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.9);
+    z-index: 2000;
+    opacity: 0;
+    
+    /* The Pro Pop Animation */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* When triggered by JS */
+.sys-box.show-sys {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.sys-header {
+    background-color: #2b2b2b;
+    padding: 10px 20px;
+    border-bottom: 4px solid #111;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sys-header h2 { 
+    margin: 0; 
+    font-size: 22px; 
+    color: #fff; 
+}
+
+.sys-grid {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sys-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0c0c0c;
+    padding: 12px 15px;
+    border: 2px solid #333;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.sys-label { 
+    color: #aaa; 
+    font-size: 18px; 
+}
+
+.sys-val { 
+    font-size: 18px; 
+    font-weight: bold; 
+}
+
+.glow-green {
+    color: #55ff55;
+    text-shadow: 0 0 8px rgba(85, 255, 85, 0.4);
 }
