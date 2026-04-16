@@ -239,7 +239,7 @@ function runCmd(e) {
         log.scrollTop = log.scrollHeight;
     }
 }
-function openCrafting() {
+function logs() {
     let ui = document.getElementById("craftingUI");
     ui.style.display = "flex";
     

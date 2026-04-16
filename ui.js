@@ -61,7 +61,7 @@ function minimize() {
         term.classList.remove('minimized');
     }
 }
-function openSystemStatus() {
+function sysstatus() {
     let bg = document.getElementById("sysBg");
     let box = document.getElementById("sysBox");
     bg.style.display = "block";
@@ -69,7 +69,7 @@ function openSystemStatus() {
         box.classList.add("show-sys");
     }, 10);
 }
-function closeSystemStatus() {
+function cclosesys() {
     let bg = document.getElementById("sysBg");
     let box = document.getElementById("sysBox");
     box.classList.remove("show-sys");

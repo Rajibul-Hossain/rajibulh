@@ -18,10 +18,16 @@
             <li><a href="#contact">Contact</a></li></ul>
             <div id="left-bar" class="side-panel">
         <div class="mc-slot" id="gh-btn" onclick="openAchieve(this)">
-        W
+        GH
         <span class="gh-tooltip">View Achievements</span></div>
-        <div class="mc-slot" onclick="openSystemStatus()">IN<span class="in-tooltip">System Status</span></div>
-    <a href="#" class="mc-slot">YT</a> </div>
+    <div class="mc-slot" id="in-btn" onclick="sysstatus()">
+        IN
+        <span class="in-tooltip">System Status</span>
+    </div>
+    <div class="mc-slot" id="yt-btn" onclick="logs()">
+        YT
+        <span class="yt-tooltip">View Recipe</span>
+    </div> </div>
 
     <div id="right-bar" class="side-panel scoreboard">
         <h3 class="score-title">RAJIBUL.H</h3>
@@ -192,9 +198,40 @@
             
             <div class="recipe-book">
                 <h3>Recipe Book</h3>
-                <div class="recipe-slot active-recipe" onclick="loadLog('botani', this)">🌿 Botani Talk</div>
-                <div class="recipe-slot" onclick="loadLog('hamara', this)">🏫 HamaraLabs</div>
-                <div class="recipe-slot" onclick="loadLog('wheel', this)">♿ Wheelchair</div>
+<div class="recipe-slot active-recipe" onclick="loadLog('botani', this)">
+    🌿 Botani Talk
+    <span class="recipe-tag">IoT + AI</span>
+</div>
+
+<div class="recipe-slot" onclick="loadLog('hamara', this)">
+    🏫 HamaraLabs
+    <span class="recipe-tag">Full Stack</span>
+</div>
+
+<div class="recipe-slot" onclick="loadLog('wheel', this)">
+    ♿ Eye-Control Wheelchair
+    <span class="recipe-tag">Computer Vision</span>
+</div>
+
+<div class="recipe-slot" onclick="loadLog('pi-server', this)">
+    🖥️ Pi Home Server
+    <span class="recipe-tag">Networking</span>
+</div>
+
+<div class="recipe-slot" onclick="loadLog('dns', this)">
+    🌐 Private DNS
+    <span class="recipe-tag">Security</span>
+</div>
+
+<div class="recipe-slot" onclick="loadLog('file-share', this)">
+    📂 File Share System
+    <span class="recipe-tag">Local Network</span>
+</div>
+
+<div class="recipe-slot" onclick="loadLog('portfolio', this)">
+    🎮 Minecraft Portfolio
+    <span class="recipe-tag">Frontend</span>
+</div>
             </div>
 
             <div class="log-display">
@@ -227,7 +264,7 @@
     <div id="sysBox" class="sys-box">
         <div class="sys-header">
             <h2>⚙️ Live System Status</h2>
-            <span class="close-btn" onclick="closeSystemStatus()">X</span>
+            <span class="close-btn" onclick="closesys()">X</span>
         </div>
         
         <div class="sys-grid">
