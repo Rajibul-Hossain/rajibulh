@@ -136,7 +136,6 @@ let who = document.getElementById('who');
 let msg = document.getElementById('msg');
 let btn = document.getElementById('send');
 
-// 1-liners to show/hide
 const showMail = () => mail.classList.remove('hide');
 const hideMail = () => mail.classList.add('hide');
 async function sendMsg() {
@@ -168,3 +167,12 @@ async function sendMsg() {
         btn.style.color = "#ff5555";
     }
 }
+let doc = document;
+let ogTitle = "Rajibul.exe | Terminal"; 
+doc.addEventListener("visibilitychange", () => {
+    if (doc.hidden) {
+        doc.title = "🔴 Connection Lost...";
+    } else {
+        doc.title = ogTitle;
+    }
+});
