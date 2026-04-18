@@ -357,3 +357,30 @@ function startLiveMonitor() {
 window.addEventListener('load', () => {
     startLiveMonitor();
 });
+let box1 = document.getElementById('boot');
+let txt = document.getElementById('boot-txt');
+let lines = [
+"Booting OS...",
+    "Mounting drives...",
+    "Loading ESP32 IoT payload... [OK]",
+    "Pinging Pi Server at 192.168.29.35...", 
+    "Resolving DNS...",
+    "Bypassing security protocols...",
+    "Establishing secure connection to Rajibul.exe...",
+    "[OK]"
+];
+const wait = (ms) => new Promise(res => setTimeout(res, ms));
+async function runBoot() {
+    for (let i = 0; i < lines.length; i++) {
+        txt.innerHTML += `<div>${lines[i]}</div>`;
+        await wait(500); 
+    }
+    await wait(600); 
+    box1.classList.add('flash');
+    await wait(200); 
+    box1.classList.add('hide-boot');
+    setTimeout(() => {
+        box1.remove();
+    }, 600);
+}
+window.onload = runBoot;
