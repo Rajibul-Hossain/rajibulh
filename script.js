@@ -55,13 +55,10 @@ function openPop(title, desc) {
     
     document.getElementById("projModal").style.display = "flex";
 }
-
-// close the popup
 function closePop() {
     document.getElementById("projModal").style.display = "none";
 }
-// fly out achievements from the exact button
-function openAchieve(btn) {
+function open_ar(btn) {
     let bg = document.getElementById("achieveBg");
     let box = document.getElementById("achieveBox");
 
@@ -81,7 +78,7 @@ function openAchieve(btn) {
         box.style.opacity = "1";
     }, 10);
 }
-function closeAchieve() {
+function close_ar() {
     let bg = document.getElementById("achieveBg");
     let box = document.getElementById("achieveBox");
     box.style.left = "20px";
@@ -95,7 +92,6 @@ function closeAchieve() {
 let panels = document.querySelectorAll('.side-panel');
 panels.forEach(panel => {
     panel.addEventListener('click', function() {
-        // check if we are on mobile
         if (window.innerWidth <= 768) {
        
             this.classList.toggle('active-mobile');
@@ -124,7 +120,6 @@ document.addEventListener('keydown', function(e) {
 });
 
 function activateGoatMode() {
-    // flashy transition
     document.body.style.transition = "all 1s ease";
     document.body.style.backgroundColor = "#2b2300"; 
     let levelTxt = document.querySelector('.magic-tt');
@@ -229,7 +224,7 @@ function runCmd(e) {
         }
         else if (cmd === '/crafting' || cmd === '/logs') {
             log.innerHTML += `<p class="term-txt" style="color:#55ff55;">> Accessing Crafting Logs...</p>`;
-            openCrafting(); // BOOM! Entire screen changes.
+            logs()
         }
         else if (cmd !== "") {
             log.innerHTML += `<p class="term-txt" style="color:#ff5555;">> Error: Unknown command. Try /help for a list of commands</p>`;
@@ -327,16 +322,16 @@ function checkPiStatus() {
         let ping = Date.now() - startTime;
         if(statusText) {
             statusText.innerHTML = `Online <span style="color: #55ffff; font-size: 14px;">(${ping}ms)</span>`;
-            statusText.className = "sys-val glow-green"; // the green glow back
-            statusText.style.color = ""; // manual red color
+            statusText.className = "sys-val glow-green"; 
+            statusText.style.color = ""; 
         }
     };
     img.onerror = function() {
         if(statusText) {
             statusText.innerHTML = `Online<span style="color: #55ff6c; font-size: 14px;">(Connected)</span>`;
-            statusText.className = "sys-val"; // he green glow
-            statusText.style.color = "#5bff55"; // it to be Red
-            statusText.style.textShadow = "0 0 8px rgba(85, 255, 218, 0.47)"; // Add a red glow!
+            statusText.className = "sys-val";
+            statusText.style.color = "#5bff55"; 
+            statusText.style.textShadow = "0 0 8px rgba(85, 255, 218, 0.47)"; 
         }
     };
 

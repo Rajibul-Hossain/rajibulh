@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="others.css">
 </head>
 <body>
-
+<div id="boot">
+        <div id="boot-txt"></div>
+    </div>
     <nav class="mc-navbar">
         <h1 class="logo">Rajibul.H</h1>
         <ul class="nav-links">
@@ -17,12 +19,12 @@
             <li><a href="#projects">Inventory</a></li>
             <li><a href="#contact">Contact</a></li></ul>
             <div id="left-bar" class="side-panel">
-        <div class="mc-slot" id="gh-btn" onclick="openAchieve(this)">
+        <div class="mc-slot" id="gh-btn" onclick="open_ar(this)">
         GH
         <span class="gh-tooltip">View Achievements</span></div>
     <div class="mc-slot" id="in-btn" onclick="sysstatus()">
         IN
-        <span class="in-tooltip">System Status</span>
+        <span class="in-tooltip">View system Status</span>
     </div>
     <div class="mc-slot" id="yt-btn" onclick="logs()">
         YT
@@ -177,7 +179,7 @@
     
     <div id="achieveBg" class="achieve-overlay"></div>
     <div id="achieveBox" class="achieve-box">
-        <span class="close-btn" onclick="closeAchieve()">X</span>
+        <span class="close-btn" onclick="close_ar()">X</span>
         <h2 class="magic-tt">Achievements Unlocked</h2>
         <br>
         <ul style="list-style: none; text-align: left; line-height: 2;">
@@ -283,6 +285,32 @@
             <div class="sys-item">
                 <span class="sys-label">AI Usage</span>
                 <span class="sys-val" style="color: #ffaa00;">~30% (Rest Handcrafted)</span>
+            </div>
+        </div>
+    </div>
+    <div class="now-playing-glass" id="musicWidget">
+        
+        <div class="drag-handle">
+            <span></span><span></span><span></span>
+            
+        </div>
+        <span class="drag-tooltip">I am Draggable </span>
+        <div class="widget-content">
+            <div class="cassette-icon">
+                <div class="cassette-reels">
+                    <div class="reel"></div>
+                    <div class="reel"></div>
+                </div>
+            </div>
+
+            <div class="track-details">
+                <span class="status-label">🎵 NOW PLAYING</span>
+                <div class="song-marquee">
+                    <span class="song-name">Lofi Beats • Rajibul.exe</span>
+                </div>
+                <div class="eq-bars">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                </div>
             </div>
         </div>
     </div>
