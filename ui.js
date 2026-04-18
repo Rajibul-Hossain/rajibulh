@@ -128,3 +128,43 @@ document.addEventListener("mouseup", () => {
     moving = false;
     box.style.cursor = "grab";
 });
+// --- Discord Mail Engine ---
+const hook = "PASTE_YOUR_WEBHOOK_URL_HERE"; 
+
+let mail = document.getElementById('mail');
+let who = document.getElementById('who');
+let msg = document.getElementById('msg');
+let btn = document.getElementById('send');
+
+// 1-liners to show/hide
+const showMail = () => mail.classList.remove('hide');
+const hideMail = () => mail.classList.add('hide');
+async function sendMsg() {
+    if (msg.value.trim() === "") return; 
+    btn.innerText = "[ SENDING... ]";
+    let payload = {
+        content: `🚨 **NEW PING** 🚨\n**From:** ${who.value || 'Anon'}\n**Msg:** ${msg.value}`
+    };
+    try {
+        await fetch(hook, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        btn.innerText = "[ SENT ]";
+        btn.style.background = "#55ff55";
+        btn.style.color = "#111";
+        setTimeout(() => {
+            who.value = "";
+            msg.value = "";
+            btn.innerText = "[ TRANSMIT ]";
+            btn.style.background = "#111";
+            btn.style.color = "#55ff55";
+            hideMail();
+        }, 2000);
+    } catch (err) {
+        console.log("Failed", err);
+        btn.innerText = "[ ERROR ]";
+        btn.style.color = "#ff5555";
+    }
+}

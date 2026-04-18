@@ -7,13 +7,10 @@
         backdrop-filter: blur(10px);
         border: 2px solid #55ff55;
     }
-    .gh-tooltip, .in-tooltip, .yt-tooltip {
+    .gh-tooltip, .in-tooltip, .yt-tooltip, .drag-tooltip, .contact-tip {
         display: none;
     }
     .now-playing-glass {
-        display: none;
-    }
-.gh-tooltip {
         display: none;
     }
     #left-bar {
@@ -498,4 +495,38 @@
 .hide-boot {
     opacity: 0;
     pointer-events: none;
+}
+.nav-link {
+    position: relative; 
+}
+.contact-tip {
+    position: absolute;
+    top: 180%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    background-color: #ff55ff;
+    color: #111;
+    padding: 4px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap; 
+    border: 2px solid #fff;
+    pointer-events: none; 
+    z-index: 100;
+    animation: peepBounceDown 1.5s ease-in-out infinite;
+    animation-delay: 0.5s; 
+}
+.contact-tip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #ff55ff transparent;
+}
+@keyframes peepBounceDown {
+    0%, 100% { top: 180%; }
+    50% { top: 210%; } 
 }

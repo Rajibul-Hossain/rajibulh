@@ -210,13 +210,13 @@ body {
 }
 
 .mc-sign {
-    background-color: #8b5a2b; /* Oak wood color */
-    border: 6px solid #5c3a21; /* Darker wood border */
+    background-color: #8b5a2b; 
+    border: 6px solid #5c3a21; 
     padding: 30px;
     width: 350px;
     margin: 0 auto;
     box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
-    /* Make it look like it's on a stick */
+   
     position: relative;
 }
 
@@ -253,19 +253,16 @@ body {
     font-size: 20px;
     padding: 5px 10px;
 }
-/* popup background overlay */
 .modal-bg {
-    display: none; /* hide it normally */
+    display: none;
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85); /* dark transparent bg */
-    z-index: 100; /* keep it on top of everything */
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 100;
     justify-content: center;
     align-items: center;
 }
-
-/* the actual popup box */
 .modal-box {
     background-color: #2b2b2b;
     border: 4px solid #555;
@@ -279,19 +276,16 @@ body {
     text-align: center;
     position: relative;
     box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
-    
-    /* trigger the snappy pop animation */
     animation: chestOpen 0.25s ease-out;
 }
 
-/* premium chest-opening pop effect */
 @keyframes chestOpen {
     0% { 
         transform: scale(0.8); 
         opacity: 0; 
     }
     70% { 
-        transform: scale(1.02); /* slight overshoot for a premium bounce */
+        transform: scale(1.02); 
         opacity: 1; 
     }
     100% { 
@@ -299,7 +293,6 @@ body {
     }
 }
 
-/* red exit button */
 .close-btn {
     position: absolute;
     top: 10px; right: 15px;
@@ -313,34 +306,28 @@ body {
 .close-btn:hover {
     color: #ff0000;
 }
-/* base style for both side panels */
 .side-panel {
     position: fixed;
-    top: 50%; /* center them vertically */
+    top: 50%; 
     transform: translateY(-50%);
-    background-color: rgba(43, 43, 43, 0.8); /* slightly see-through */
+    background-color: rgba(43, 43, 43, 0.8); 
     border: 4px solid #555;
     padding: 10px;
-    z-index: 50; /* keep them under the popup but above the background */
+    z-index: 50; 
 }
 
-/* left hotbar specifics */
 #left-bar {
-    left: -100px; /* start hidden off-screen */
-    animation: slideInLeft 0.5s ease-out 0.5s forwards; /* 0.5s delay before popping in */
+    left: -100px; 
+    animation: slideInLeft 0.5s ease-out 0.5s forwards; 
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-
-/* right scoreboard specifics */
 #right-bar {
-    right: -250px; /* start hidden off-screen */
+    right: -250px;
     animation: slideInRight 0.5s ease-out 0.8s forwards; /* 0.8s delay */
     width: 200px;
 }
-
-/* slide in animations */
 @keyframes slideInLeft {
     to { left: 20px; }
 }
@@ -348,8 +335,6 @@ body {
 @keyframes slideInRight {
     to { right: 20px; }
 }
-
-/* left hotbar slots */
 .mc-slot {
     width: 50px;
     height: 50px;
@@ -369,16 +354,14 @@ body {
     background-color: #fff;
     color: #000;
 }
-
-/* scoreboard styling */
 .scoreboard {
-    background-color: rgba(0, 0, 0, 0.6) !important; /* darker for scoreboard */
+    background-color: rgba(0, 0, 0, 0.6) !important; 
     border: none;
     padding: 15px;
 }
 
 .score-title {
-    color: #ffff55; /* yellow title */
+    color: #ffff55;
     text-align: center;
     margin-bottom: 10px;
 }
@@ -391,16 +374,14 @@ body {
 }
 
 .score-num {
-    color: #ff5555; /* red numbers */
+    color: #ff5555; 
 }
 
-/* pro-tip: hide sidebars on mobile so they don't break the layout */
 @media (max-width: 900px) {
     .side-panel {
         display: none !important;
     }
 }
-/* dark background for achievements */
 .achieve-overlay {
     display: none; /* hidden by default */
     position: fixed;
@@ -410,7 +391,6 @@ body {
     z-index: 100;
 }
 
-/* the flying achievement box */
 .achieve-box {
     background-color: #2b2b2b;
     border: 4px solid #555;
@@ -421,7 +401,7 @@ body {
     padding: 40px;
     width: 80%;
     max-width: 500px;
-    position: fixed; /* lets us move it anywhere */
+    position: fixed; 
     box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
     z-index: 101;
     
@@ -440,7 +420,7 @@ body {
     padding: 10px 20px;
     z-index: 10;
     animation: floatItem 2s ease-in-out infinite;
-    pointer-events: none; /* don't block clicks */
+    pointer-events: none; 
 }
 
 .hint-txt {
@@ -459,7 +439,7 @@ body {
     top: 0; left: 0;
     width: 100vw; 
     height: 100vh;
-    background-color: #1e1e1e; /* solid dark background */
+    background-color: #1e1e1e;
     z-index: 3000; 
     flex-direction: column;
 }
@@ -478,7 +458,7 @@ body {
     flex-grow: 1;
     padding: 20px;
     gap: 20px;
-    overflow: hidden; /* prevents weird scrolling */
+    overflow: hidden;
 }
 .recipe-book {
     width: 250px;
@@ -533,7 +513,7 @@ body {
 }
 
 #in-btn {
-    position: relative; /* Anchors the tooltip */
+    position: relative; 
 }
 
 .in-tooltip {
@@ -542,7 +522,7 @@ body {
     transform: translateY(-50%); 
     left: 120%; 
     
-    background-color: #55ff55; /* Hacker Green! */
+    background-color: #55ff55; 
     color: #111;
     padding: 4px 10px;
     font-size: 16px;
@@ -565,11 +545,9 @@ body {
     border-style: solid;
     border-color: transparent #55ff55 transparent transparent;
 }
-/* --- Premium Draggable Glass Widget --- */
-
 .now-playing-glass {
     position: fixed; 
-    top: 100px;       /* Puts it nicely in the top right corner */
+    top: 110px;    
     right: 20px;
     width: 300px;
     background: linear-gradient(135deg, rgba(30, 30, 30, 0.6), rgba(10, 10, 10, 0.8));
@@ -702,4 +680,81 @@ body {
 @keyframes eqBounce {
     0% { height: 4px; }
     100% { height: 12px; }
+}
+/* --- Clean Mail Terminal --- */
+#mail {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6); 
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.3s;
+}
+
+.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mail-glass {
+    width: 400px;
+    background: rgba(15, 15, 15, 0.9);
+    border: 1px solid #2b7a2b;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,255,0,0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+}
+
+.mail-top {
+    display: flex;
+    justify-content: space-between;
+    color: #55ff55;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    border-bottom: 1px dashed #2b7a2b;
+    padding-bottom: 10px;
+}
+
+.close {
+    cursor: pointer;
+    color: #ff5555; 
+}
+
+.mail-glass input, .mail-glass textarea {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    font-family: 'Consolas', monospace;
+    border-radius: 4px;
+    outline: none;
+}
+
+.mail-glass textarea {
+    height: 100px;
+    resize: none;
+}
+
+.mail-glass input:focus, .mail-glass textarea:focus { border-color: #55ff55; }
+
+#send {
+    background: #111;
+    color: #55ff55;
+    border: 1px solid #55ff55;
+    padding: 10px;
+    font-family: 'Consolas', monospace;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#send:hover {
+    background: #55ff55;
+    color: #111;
 }
