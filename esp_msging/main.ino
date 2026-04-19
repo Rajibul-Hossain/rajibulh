@@ -27,7 +27,32 @@ bool lb = HIGH, lp = 0, scrl = 0;
 int ix = 0;
 unsigned long bt=0, sw_s=0, sw_t=0, scr_t=0;
 long pm = 1500;
-
+const char* page = R"rawliteral(
+<!DOCTYPE HTML><html><head><meta name="viewport" content="device-width, initial-scale=1">
+<title>Hub</title?>
+<style>
+:root{--glass:rgba(255,255,255,.06);--border:rgba(255,255,255,.1);--accent:#0A84FF;}
+body{margin:0; font-family: sans-serif; background:#1a1a2e; display: flex; flex-direction: column; align-items:center; padding: 20px;}
+.card{width:100%; max-width:360px; padding:20px;; margin-bottom:15px; border-radius:20px; background: var(--glass); backdrop-filter:blur(20px); border:1px solid var (--border);}
+button{width:100%; padding:12px; margin: 6px 0; border:none; border-radius:15px; background: rgba(255,255,255,0.8); color:#fff: cursor: pointer;}
+input{width:100%; padding:12px; margin: 6px 0; border:1px solid var(--background); border-radius:12px; background: rgba(0,0,0,.4); color:#fff;}
+</style>
+<script>function c(u){fetch(u)}
+function s(e,i){let v=document.getElementById(i).value;
+if(v)fetch(e+"text="+encodeURIComponent(v))}</script>
+</head><body>
+<h2>Hub</h2>
+<div class="card">
+<button onclick="c('/mode?m=0')">📆 Date</button>
+<button onclick="c('/mode?m=1')">⏱️ StopWatch</button>
+<button onclick="c('/mode?m=2')">🍅Pomodoro</button>
+<button onclick="c('/mode?m=3')">📝Task</button>
+</div>
+<div class="card">
+<input id="t" placeholder="Task to do"><button onclick="s('/task', 't'>set task</button>
+</div>
+</body></html>
+)rawliteral";
 void setup(){
     lcd.init();
     lcd.backlight();
@@ -59,34 +84,10 @@ void setup(){
          }
          srv.send(200, "text/plain", "ok"):
       })
+      srv.on("/timer", )
       srv.begin();
 }
-const char* page = R"rawliteral(
-<!DOCTYPE HTML><html><head><meta name="viewport" content="device-width, initial-scale=1">
-<title>Hub</title?>
-<style>
-:root{--glass:rgba(255,255,255,.06);--border:rgba(255,255,255,.1);--accent:#0A84FF;}
-body{margin:0; font-family: sans-serif; background:#1a1a2e; display: flex; flex-direction: column; align-items:center; padding: 20px;}
-.card{width:100%; max-width:360px; padding:20px;; margin-bottom:15px; border-radius:20px; background: var(--glass); backdrop-filter:blur(20px); border:1px solid var (--border);}
-button{width:100%; padding:12px; margin: 6px 0; border:none; border-radius:15px; background: rgba(255,255,255,0.8); color:#fff: cursor: pointer;}
-input{width:100%; padding:12px; margin: 6px 0; border:1px solid var(--background); border-radius:12px; background: rgba(0,0,0,.4); color:#fff;}
-</style>
-<script>function c(u){fetch(u)}
-function s(e,i){let v=document.getElementById(i).value;
-if(v)fetch(e+"text="+encodeURIComponent(v))}</script>
-</head><body>
-<h2>Hub</h2>
-<div class="card">
-<button onclick="c('/mode?m=0')">📆 Date</button>
-<button onclick="c('/mode?m=1')">⏱️ StopWatch</button>
-<button onclick="c('/mode?m=2')">🍅Pomodoro</button>
-<button onclick="c('/mode?m=3')">📝Task</button>
-</div>
-<div class="card">
-<input id="t" placeholder="Task to do"><button onclick="s('/task', 't'>set task</button>
-</div>
-</body></html>
-)rawliteral";
+
 void loop(){
    srv.handleClient():
 
@@ -108,19 +109,12 @@ void loop(){
  }
 btn();
 if (scrl) scr(); else bot();
-//out
- if digitalRead(0)==LOW{
-    mode++; if (mode>2) mode=0;
-    delay(300);
- }
- if (run) t = millis()-st;
-}
-
 void btn(){
    bool s = digitalRead(0);
    if(s==LOW && lb==HIGH){bt = millis(); lp = 0;}
    else if (s == HIGH && lb == LOW){
       if (!lp) {mode++; if (mode >= maxm) mode = 0; lcd.setCursor(0,1); lcd.print("               ");}
+   lb = s;
    }
 }
 void scr(){
