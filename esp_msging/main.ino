@@ -135,3 +135,19 @@ void scr(){
          scrl = 0;
       }}
 }
+void bot(){
+   lcd.setCursor(0,1);
+   switch(mode){
+      case 0: {
+         struct tm t; getLocalTime(&t);
+         char b[17]; strftime(b, 17, "%d %b %Y", &t);
+         lcd.print(b); break;
+      }
+      case 1: {
+         unsigned long s = sw_t / 1000;
+         char b[17]; sprintf(b, "sw %02d:%02d.%1d", (int)(s/60), (int)(s%60), (int)((sw_t%1000)/100));
+         lcd.print(b); break;
+      }
+      case 3: lcd.print(task); break;
+   }
+}
