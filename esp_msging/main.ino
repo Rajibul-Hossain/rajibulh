@@ -123,3 +123,15 @@ void btn(){
       if (!lp) {mode++; if (mode >= maxm) mode = 0; lcd.setCursor(0,1); lcd.print("               ");}
    }
 }
+void scr(){
+   if (millis() - scr_t >350){
+      scr_t = millis();
+      String p = "                "+msg+"                ";
+      if (ix <= p.length() - 16){
+         lcd.setCursor(0,1); lcd.print(p.substring(ix, ix+16));
+         ix++;
+      }
+      else{
+         scrl = 0;
+      }}
+}
