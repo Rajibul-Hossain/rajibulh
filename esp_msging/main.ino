@@ -108,10 +108,18 @@ void loop(){
  }
 btn();
 if (scrl) scr(); else bot();
-
+//out
  if digitalRead(0)==LOW{
     mode++; if (mode>2) mode=0;
     delay(300);
  }
  if (run) t = millis()-st;
+}
+
+void btn(){
+   bool s = digitalRead(0);
+   if(s==LOW && lb==HIGH){bt = millis(); lp = 0;}
+   else if (s == HIGH && lb == LOW){
+      if (!lp) {mode++; if (mode >= maxm) mode = 0; lcd.setCursor(0,1); lcd.print("               ");}
+   }
 }
