@@ -88,13 +88,27 @@ if(v)fetch(e+"text="+encodeURIComponent(v))}</script>
 </body></html>
 )rawliteral";
 void loop(){
- struct tm t;
- if(getLocalTime($t)){
-    char b[9];
-    strftime(b, 9, "%H:%M:%S", &t);
-    lcd.setCursor(0, 0);
-    lcd.print(b);
+   srv.handleClient():
+
+ struct tm info;
+ if(getLocalTime(&info)){
+    char buff[9];
+    strftime(buff, 9, "%H:%M:%S", &info);
+    lcd.setCursor(4, 0);
+    lcd.print(buff);
  }
+ if (millis() -fb_t>3000){
+   fb_t = millis();
+   if (Firebase.RTDB.getString(&fb, "/ghost/msg")){
+      String s = fb.stringData();
+      if (s != last_msg && s.length()) {
+         last_msg=s; msg = s; scrl = 1; ix=0; scr_t = millis();
+      }
+   }
+ }
+btn();
+if (scrl) scr(); else bot();
+
  if digitalRead(0)==LOW{
     mode++; if (mode>2) mode=0;
     delay(300);
