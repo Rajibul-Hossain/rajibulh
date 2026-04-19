@@ -39,6 +39,27 @@ void setup(){
     }
      lcd.clear();
      lcd.print(WiFi.localIP());
+     fb_cfg.api_key = api;
+       fb_cfg.database_url = db;
+         Firebase.signUp(&fb_cfg, &fb_auth, "", "");
+         Firebase.begin(&fb_cfg, &fb_auth);
+      srv.on("/", [](){srv.send(200, "text/html", page);});
+      srv.on ("/mode", [](){if (srv.hasArg("m")){
+         mode= srv.arg("m").toInt();
+         scrl = 0;
+         lcd.setCursor(0,1); lcd.print("               ");
+         srv.send(200, text/plain, "ok");
+      });
+
+      srv.on("/task",[](){
+         if (srv.hasArg("text")){
+            task = srv.arg("text");
+            while (task.length() <16) task+= " ";
+            mode = 3;
+         }
+         srv.send(200, "text/plain", "ok"):
+      })
+      srv.begin();
 }
 const char* page = R"rawliteral(
 <!DOCTYPE HTML><html><head><meta name="viewport" content="device-width, initial-scale=1">
