@@ -84,7 +84,32 @@ void setup(){
          }
          srv.send(200, "text/plain", "ok"):
       })
-      srv.on("/timer", )
+      srv.on("/timer", []{
+         if(srv.hasArg("act")){
+            String a=srv.arg("act");
+            if(a=="toggle"){
+               if(mode == 1){run=!run; if (run)sw_s=millis()-sw_t;}
+               else if (mode==2)run=!run;
+         
+            }
+            if(a=="reset"){run=0; sw_t=0 pm = 1500;}
+         }
+         srv.send(200, "text/plain", "ok");
+      });
+      srv.on ("/song", []{
+         if(srv.hasArg("text")){
+            song=srv.arg("text");
+         while(song.length()<16)song+="  ";
+         mode=4;  
+      }
+      srv.send(200, "text/plain", "ok");
+      });
+      srv.on("/trigger",[]{
+         msg=srv.hasArg("text")? srv.arg("text"):"Get Shit Done";
+         scrl = 1; ix=0; scr_t=millis();
+         srv.send(200, "text/plain", "ok");
+      });
+      }
       srv.begin();
 }
 
@@ -144,4 +169,4 @@ void bot(){
       }
       case 3: lcd.print(task); break;
    }
-}
+} 
