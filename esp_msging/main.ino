@@ -120,7 +120,7 @@ void loop(){
  if(getLocalTime(&info)){
     char buff[9];
     strftime(buff, 9, "%H:%M:%S", &info);
-    lcd.setCursor(4, 0);
+    lcd.setCursor(4, 0); 
     lcd.print(buff);
  }
  if (millis() -fb_t>3000){
@@ -170,3 +170,14 @@ void bot(){
       case 3: lcd.print(task); break;
    }
 } 
+void tmr(){
+   if(!run)return;
+   if(mode==1||scrl)sw_t=millis()-sw_s;
+   if(mode==2 ||scrl&&millis()-st>1000){
+      st=millis(); if (om>0)pm--;
+   }
+}
+void lp_f(){
+   if (mode==1){run=!run; if (run)sw_s=millis()-sw_t;}
+   else if (mode==2)run=!run;if (!run)pm=1500;
+}
