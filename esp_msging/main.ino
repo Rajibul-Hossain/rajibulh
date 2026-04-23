@@ -51,6 +51,18 @@ if(v)fetch(e+"text="+encodeURIComponent(v))}</script>
 <div class="card">
 <input id="t" placeholder="Task to do"><button onclick="s('/task', 't'>set task</button>
 </div>
+<div class="card">
+<input id="r" placeholder="reminder">
+<button class="primary" onclick="t()">🚀 Fire</button>
+</div>
+<div class="card">
+<input id="s" placeholder="song">
+<button onclick="s('/song','s')">set song</button>
+</div>
+<div class="card">
+<button onclick="c('/timer?act=toggle')">▶ Play / Pause</button>
+<button onclick="c('/timer?act=reset')">⟲ Reset</button>
+</div>
 </body></html>
 )rawliteral";
 void setup(){
@@ -181,3 +193,30 @@ void lp_f(){
    if (mode==1){run=!run; if (run)sw_s=millis()-sw_t;}
    else if (mode==2)run=!run;if (!run)pm=1500;
 }
+void pm_f(){
+  char b[17];
+  sprintf(b,"%s %02d:%02d",run?"study":"pomo",(int)(pm/60),(int)(pm%60));
+  lcd.print(b);
+}
+
+void hit(){
+  char b[17];
+  sprintf(b,"views: %d ",views);
+  lcd.print(b);
+}
+switch(mode){
+    case 0: {
+      struct tm t; getLocalTime(&t);
+      char b[17]; strftime(b, 17, "%d %b - %A", &t);
+      lcd.print(b); break;
+    }
+    case 1: {
+      unsigned long s = sw_t / 1000;
+      char b[17]; sprintf(b, "sw %02d:%02d.%1d", (int)(s/60), (int)(s%60), (int)((sw_t%1000)/100));
+      lcd.print(b); break;
+    }
+    case 2: pm_f(); break;
+    case 3: lcd.print(task); break;
+    case 4: lcd.print(song); break;
+    case 5: hit(); break;
+  }
