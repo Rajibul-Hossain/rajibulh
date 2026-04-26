@@ -92,24 +92,33 @@
                 </div>
             </div>
             <div class="dash-col">
-                <h2 class="section-title">Console</h2>
-                <div class="mc-terminal" style="height: 100%;">
-                <div class="term-header" id="termHeader">
-                <span class="redstone-dot"></span> Rajibul.exe
-                
-                <span id="pinBtn" style="margin-left: auto; cursor: pointer; filter: grayscale(100%);" onclick="pin()">Click Me📌</span>
-                <span id="minBtn" style="cursor: pointer; font-weight: bold; position: relative; top: -5px;" onclick="minimize()">Minimise</span>
-                </div>
-                    <div class="term-body" id="termLog">
-                        <p class="term-txt">Booting  OS...</p>
-                        <p class="term-txt">System ready.</p>
-                        <p class="term-hint">Hint: Try typing  <span class="cmd-hl">/help</span><span class="cmd-hl"></span></p>
-                    </div>
-                    <div class="term-input-line">
-                        <span class="term-prompt">C:\Rajibul></span>
-                        <input type="text" id="termInput" autocomplete="off" onkeypress="runCmd(event)">
-                    </div>
-                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h2 class="section-title" style="margin: 0;">Console</h2>
+    <div class="iot-bdg" onclick="bait()">🟢 Click to Send MSG</div>
+</div>
+
+<div class="mc-terminal" style="height: 100%;">
+    <div class="term-header" id="termHeader">
+        <span class="redstone-dot"></span> Rajibul.exe
+        
+        <span id="pinBtn" style="margin-left: auto; cursor: pointer; filter: grayscale(100%);" onclick="pin()">Click Me📌</span>
+        <span id="minBtn" style="cursor: pointer; font-weight: bold; position: relative; top: -5px;" onclick="minimize()">Minimise</span>
+    </div>
+    
+    <div class="term-body" id="termLog">
+        <p class="term-txt">Booting  OS...</p>
+        <p class="term-txt">[IOT BRIDGE ONLINE] -> Physical desk connected.</p>
+        <p class="term-hint">System ready. Try typing  <span class="cmd-hl">/help</span></p>
+    </div>
+    
+    <div class="term-input-line" style="flex-wrap: wrap;">
+        <span class="term-prompt">C:\Rajibul></span>
+        <input type="text" id="termInput" autocomplete="off" onkeypress="runCmd(event)">
+        <div id="t-hint" style="color: rgba(255,255,255,0.4); font-size: 11px; margin-top: 6px; font-style: italic; width: 100%; padding-left: 5px;">
+            hint: type /msg to physically ping my desk
+        </div>
+    </div>
+</div>
             </div>
         </div>
     </section>
@@ -309,7 +318,8 @@
             <button id="send" onclick="sendMsg()">[ TRANSMIT ]</button>
         </div>
     </div>
-    <script src="script.js"></script>
-    <script src="ui.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script type="module" src="scripts/firebase.js"></script>
 </body>
 </html>
