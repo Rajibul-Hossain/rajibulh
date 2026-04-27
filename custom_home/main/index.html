@@ -48,7 +48,26 @@
         <input placeholder="0" required id="c">
         <div id="key">
             <span onclick="cal(this.innerHTML)">0</span>
-            <span onclick="cal(this.innerHTML)"></span>
+            <span onclick="cal(this.innerHTML)" id="0">.</span>
+            <span onclick="back()" class="icon" style="background: orange;">backspace</span>
+            <input type="reset" value="C" style="background: orangered;">
+            <span onclick="cal(this.innerHTML)">1</span>
+            <span onclick="cal(this.innerHTML)">2</span>
+            <span onclick="cal(this.innerHTML)">3</span>
+            <span onclick="cal(this.innerHTML)" id="o">+</span> <!-- o = +, -, *, /-->
+            <span onclick="cal(this.innerHTML)">4</span>
+            <span onclick="cal(this.innerHTML)">5</span>
+            <span onclick="cal(this.innerHTML)">6</span>
+            <span onclick="cal(this.innerHTML)" id="o">-</span>
+            <span onclick="cal(this.innerHTML)">7</span>
+            <span onclick="cal(this.innerHTML)">8</span>
+            <span onclick="cal(this.innerHTML)">9</span>
+            <span onclick="cal(this.innerHTML)" id="o">*</span>
+            <span onclick="cal(this.innerHTML)" id="o">(</span>
+            <span onclick="cal(this.innerHTML)" id="o">)</span>
+            <span onclick="cal(this.innerHTML)" id="o">/</span>
+            <input type="submit" value="=" style="background: #dcb8ff;">
+            
         </div>
       </form>
 </body>
