@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="Home.css">
+    <title>Dynamic HOME</title>
+    <link rel="stylesheet" id="mob">
+    <link rel="icon" type="img/svg" href="../icons/Home.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body id = "body">
+    <div id="clock">
+        <span id="analog">
+            <center id="t">12</center>
+            <div id="hr" class="hand"></div>
+            <div id="min" class="hand"></div>
+            <div id = "sec" class="hand"></div>
+            <div id="center"></div>
+            <span id="s">9</span>
+            <span id="th">3</span>
+            <span id="n">6</span>
+        </span>
+        <i id="digi"></i>
+        <span id="wish"></span>
+    </div>
+    <center id="sw"></center>
+    <center id="swoogle">R One</center>
+    <form autocomplete="on" onsubmit="return false" id="srch">
+    <input type="search" placeholder="Search R One...." id="q" required></form>
+      <center>
+        <button onclick="mic()"><sub class="icon">mic</sub>Mic</button>
+        <button onclick="paste()"><sub class="icon">content_paste</sub>Paste</button>
+      </center>
+      <div id="apps">
+        <a href="https://chat.openai.com/" target="_blank"> <img src="../icons/ChatGPT.svg" alt="ChatGpt">ChadGPT</a>
+        <a href="https://youtube.com/" target="_blank"> <img src="../icons/YouTube.svg" alt="Youtube">YouTube</a>
+        <a href="https://gemini.google.com" target="_blank"><img src="../icons/Bard.svg" alt="Gemini AI">Gemini AI</a>
+        <a href="https://codepen.io/" target="_blank"><img src="../icons/Codepen.svg" alt="Codepen">COdepen</a>
+        <a href="https://github.com/" target="_blank"><img src="../icons/GitHub.svg" alt="Github">GitHub</a>
+        <a href="https://www.google.com/search?q=weather" target="_blank"><img src="../icons/Weather.svg" alt="Weather">Weather</a>
+        <a href="https://bing.com/create" target="_blank"><img src="../icons/Bing.svg" alt="BI CREATOR">Bing Image Creator</a> 
+        <a href="https://pw.live/" target="_blank"> <img src="../icons/Physics Wallah.svg" alt="PW "> Physics Wallah</a>
+        <a href="https//www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx" target="_blank"><img src="../icons/Bing AI.svg">Bing AI</a>
+     <div>
+      <form id="calc" autocomplete="on" onsubmit="return false" onclick="c.focus()">
+        <input placeholder="0" required id="c">
+        <div id="key">
+            <span onclick="cal(this.innerHTML)">0</span>
+            <span onclick="cal(this.innerHTML)"></span>
+        </div>
+      </form>
+</body>
+</html>
