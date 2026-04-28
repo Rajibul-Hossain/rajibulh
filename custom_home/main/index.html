@@ -70,5 +70,24 @@
             
         </div>
       </form>
+      <form id="chem" autocomplete="on" onsubmit="return false">
+        <h1 style="margin-top: 0;">
+          <center>Balance Chem Eq<sup>n</sup></center>
+        </h1>
+        <input  placeholder="Skeletal Eq^n" id="sce" required>
+        <div id="btns" style="display: grid; grid-template-columns: 1fr 1fr;">
+          <input type="button" value="Random" onclick="aI.style.height='7ch'; aI.style.padding='2ch'; chem.style.height='40vh'; fxnlater()">
+          <input type="submit" value="Balance">
+        </div>
+        <div id="aI">
+          <div id="rslt"> </div>
+          <div id="msg"></div>
+          <div id="code"></div>
+        </div>
+      </form>
+      <div id="grad"></div>
+      <div id="designer">Rajibul</div>
+       <script src=""></script>
+       <script src=""></script>
 </body>
 </html>
