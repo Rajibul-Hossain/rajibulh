@@ -54,3 +54,36 @@ body{
     position: relative;
     z-index: 1;
 }
+h1{
+    color: #f8f7a2;
+    margin-bottom: 20px;
+    font-size: 3em;
+    font-weight: bolder;
+    animation: fadeIn 1s ease-out;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+.score-board{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    animation: bounceIn 1s ease-out;
+}
+.badge{
+    background: rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid #ddd;
+    color: #f8f7a2;
+    font-weight: bold;
+    margin: 0 10px;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+
+}
+.badge:hover{
+    background: #f8f7a2;
+    color: #333;
+    border-color: #f8f7a2;
+}
