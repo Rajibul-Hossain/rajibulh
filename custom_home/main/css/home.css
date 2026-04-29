@@ -1,0 +1,56 @@
+*{
+    margin 0;
+    padding: 0;
+    box-sizing: border-box; 
+    transition: 0.3s;
+}
+body{
+    margin: 0;
+    user-select: none;
+    color: white;
+    background-image: url("gradient.jpeg");
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3%;
+    background-repeat: no-repeat;
+    overscroll-behavior: none;
+    width: auto;
+    overflow: hidden !important;
+    font-family: product;
+    height: 100vh;
+}
+#grad{
+        background: radial-gradient(circle at top left, #1e013d, rgba(0, 0, 0, 0.6), #2d0c30, #013d39);
+        animation: bc 6.9s infinite alternate ease-in-out;
+        background-size: 400%, 400%;
+        position: fixed;
+        margin: 0;
+        top: 0;
+        left:0;
+        height: 100%;
+        z-index: -2;
+        width: 100%;
+        opacity: 0.7;
+}
+@keyframes bc{
+    from{
+        background-position: 100% 0;
+    }
+    to{
+        background-position: 0% 0%;
+    }
+}
+.container{
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2% 5%;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 1;
+}
