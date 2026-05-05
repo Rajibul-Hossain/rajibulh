@@ -31,3 +31,30 @@ srch.addEventListener("submit", function(){
         window.open(searchURL + query);
     }
 });
+
+function clock(){
+    const now = new Date();
+    [h, m] = [now.getHours(), now.getMinutes()];
+     ['hr', 'min'].forEach((x, i) => document.getElementById(x).style.transform = `rotate(${[h % 12 * 5, m][i] * 6}deg)`);
+     digi.innerHTML = h + ":" + m;
+     wish.innerHTML = `Good ${h<12? "Morning" : h <18? "AfternooN" : "Evening"}, <br>${localStorage.getItem("name")}`;
+     setTimeout(clock, 6e4);
+}clock();
+
+function cal(x){
+    c.value += x;
+}
+calc.addEventListener("submit", function(){
+    c.value = eval(c.value);
+})
+function back(){
+    const s = c.selectionStart - 1
+    c.value = c.value.slice(0,s) + c.value.slice(s+1);
+    c.selectionStart = c.selectionEnd = s;
+}
+chem.addEventListener("submit", function(){
+     al.stle.height = '7ch';
+     al.style.padding = "2ch";
+     chem.stlye.height = "40vh";
+     doBalance();
+});
