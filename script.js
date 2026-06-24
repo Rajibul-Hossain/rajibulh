@@ -357,6 +357,7 @@ function startLiveMonitor() {
 window.addEventListener('load', () => {
     startLiveMonitor();
 });
+//boot
 let box1 = document.getElementById('boot');
 let txt = document.getElementById('boot-txt');
 let lines = [
