@@ -1,3 +1,5 @@
+import { jsx } from "react/jsx-runtime";
+
 particlesJS('body',
 
   {

@@ -9,6 +9,72 @@
     <link rel="stylesheet" href="others.css">
 </head>
 <body>
+
+<div id="auth-dashboard">
+    <div class="portal-container">
+        
+        <!-- Header -->
+        <div class="portal-header">
+            <h1 class="magic-tt" style="margin: 0; font-size: 32px; font-family: 'VT323', monospace;">Student_Portal</h1>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span id="userGreeting" style="color: #aaa; font-weight: bold; font-family: sans-serif;"></span>
+                <button onclick="logoutUser(); closePortal();" class="portal-btn danger">Logout</button>
+                <button onclick="closePortal()" class="portal-btn" style="border-radius: 50%; width: 40px; height: 40px; padding: 0;">X</button>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="portal-grid">
+            
+            <!-- HELPDESK PANEL -->
+            <div class="glass-panel">
+                <h2 style="color: #55ff55; margin-top: 0; font-family: 'VT323', monospace; font-size: 28px;">[ 1-to-1 Helpdesk ]</h2>
+                
+                <div id="chat-output" class="chat-box">
+                    <div style="color: rgba(255,255,255,0.5); font-style: italic;">Connection established. End-to-end encrypted.</div>
+                </div>
+
+                <div class="input-row">
+                    <input type="text" id="chatInput" class="portal-input" placeholder="Type your doubt here..." onkeypress="if(event.key === 'Enter') { sendHelpMessage(this.value); this.value=''; }">
+                    <button onclick="sendHelpMessage(document.getElementById('chatInput').value); document.getElementById('chatInput').value='';" class="portal-btn action">Transmit</button>
+                </div>
+                
+                <!-- Admin Only Target Input -->
+                <input type="text" id="activeStudentId" class="portal-input" placeholder="[ADMIN ONLY] Target Student UID" style="margin-top: 15px; border-color: #ffaa00; display: none;">
+            </div>
+
+            <!-- STUDY VAULT PANEL -->
+            <div class="glass-panel">
+                <h2 style="color: #00aaff; margin-top: 0; font-family: 'VT323', monospace; font-size: 28px;">[ Study Vault ]</h2>
+                
+                <!-- Chapter List -->
+                <div style="margin-bottom: 20px;">
+                    <div class="chapter-row" style="border-left-color: #00aaff;">
+                        <span style="font-weight: bold; color: #fff; font-family: sans-serif;">Ch 1: Chemical Reactions</span>
+                        <div class="btn-group">
+                            <button onclick="requestNoteAccess('chem_ch1')" class="portal-btn">Request</button>
+                            <button onclick="fetchNote('chem_ch1')" class="portal-btn action">View</button>
+                        </div>
+                    </div>
+                    
+                    <div class="chapter-row" style="border-left-color: #ff5555;">
+                        <span style="font-weight: bold; color: #fff; font-family: sans-serif;">Ch 6: Life Processes</span>
+                        <div class="btn-group">
+                            <button onclick="requestNoteAccess('bio_ch6')" class="portal-btn">Request</button>
+                            <button onclick="fetchNote('bio_ch6')" class="portal-btn action">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note Viewer Area -->
+                <div id="note-viewer" class="chat-box" style="margin-bottom: 0; padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 1.6; color: #eee; border-left: 4px solid #fff;">
+                    Select an approved chapter to load syllabus notes.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
     <div id="boot">
         <div id="boot-txt"></div>
     </div>
@@ -16,8 +82,10 @@
         <h1 class="logo">Rajibul.H</h1>
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
+            <li><a href="#" class="nav-link" id="loginNavBtn" onclick="openPortal()" style="color: #00aaff;">Login / Portal</a></li>
             <li><a href="#projects">Inventory</a></li>
             <li><a href="#" class="nav-link" onclick="showMail()">Contact<span class="contact-tip">Contact Me</span></a></li></ul>
+            
             <div id="left-bar" class="side-panel">
         <div class="mc-slot" id="gh-btn" onclick="open_ar(this)">
         GH
@@ -107,8 +175,8 @@
     
     <div class="term-body" id="termLog">
         <p class="term-txt">Booting  OS...</p>
-        <p class="term-txt">[IOT BRIDGE ONLINE] -> Physical desk connected.</p>
-        <p class="term-hint">System ready. Try typing  <span class="cmd-hl">/help</span></p>
+        <p class="term-txt"> Physical desk connected.</p>
+        <p class="term-hint">Ready. Try typing  <span class="cmd-hl">/help</span></p>
     </div>
     
     <div class="term-input-line" style="flex-wrap: wrap;">
@@ -297,7 +365,7 @@
             <div class="track-details">
                 <span class="status-label">🎵 NOW PLAYING</span>
                 <div class="song-marquee">
-                    <span class="song-name">Lofi Beats • Rajibul.exe</span>
+                    <span class="song-name">Rajibul.exe</span>
                 </div>
                 <div class="eq-bars">
                     <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
@@ -315,11 +383,12 @@
             <input type="text" id="who" placeholder="Alias / Name" autocomplete="off">
             <textarea id="msg" placeholder="Encrypting message..."></textarea>
             
-            <button id="send" onclick="sendMsg()">[ TRANSMIT ]</button>
+            <button id="send" onclick="sendMsg()">[ SEND ]</button>
         </div>
     </div>
     <script src="scripts/script.js"></script>
     <script src="scripts/ui.js"></script>
     <script type="module" src="scripts/firebase.js"></script>
+    
 </body>
 </html>

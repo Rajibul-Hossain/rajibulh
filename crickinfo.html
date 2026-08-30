@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPL Live Score</title>
+
+<style>
+body{
+    background:#0f0f0f;
+    font-family:Poppins,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    color:white;
+}
+
+button{
+    padding:15px 30px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:black;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:340px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:20px;
+    padding:25px;
+    display:none;
+    animation:pop 0.4s ease;
+    box-shadow:0 0 30px rgba(255,255,255,0.1);
+}
+
+@keyframes pop{
+    from{
+        opacity:0;
+        transform:translate(-50%,-40%);
+    }
+    to{
+        opacity:1;
+        transform:translate(-50%,-50%);
+    }
+}
+
+.live{
+    color:#00ff88;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.close{
+    margin-top:20px;
+    width:100%;
+}
+</style>
+</head>
+
+<body>
+
+<button onclick="getScore()">Show IPL Score</button>
+
+<div class="popup" id="popup">
+    <div class="live">🔴 LIVE IPL</div>
+
+    <h2 id="teams"></h2>
+
+    <p id="score"></p>
+
+    <p><b>Batsman:</b> <span id="batsman"></span></p>
+
+    <p><b>Bowler:</b> <span id="bowler"></span></p>
+
+    <p id="status"></p>
+
+    <button class="close" onclick="closePopup()">Close</button>
+</div>
+
+<script>
+
+const API_KEY = "6db1de01-a633-45ac-a1a1-202c4720f392";
+
+async function getScore(){
+
+    const popup = document.getElementById("popup");
+
+    try{
+
+        const res = await fetch(
+        `https://api.cricapi.com/v1/currentMatches?apikey=${API_KEY}&offset=0`
+        );
+
+        const data = await res.json();
+
+        const match = data.data.find(m =>
+            m.name.includes("IPL")
+        );
+
+        if(!match){
+            alert("No IPL Match Live");
+            return;
+        }
+
+        document.getElementById("teams").innerText =
+            `${match.teams[0]} vs ${match.teams[1]}`;
+
+        document.getElementById("score").innerHTML =
+            match.score.map(s =>
+                `${s.inning}: ${s.r}/${s.w} (${s.o})`
+            ).join("<br>");
+
+        document.getElementById("status").innerText =
+            match.status;
+
+        // fallback because some matches don't expose scorecard
+        document.getElementById("batsman").innerText =
+            "Live Player";
+
+        document.getElementById("bowler").innerText =
+            "Live Bowler";
+
+        popup.style.display = "block";
+
+    }catch(err){
+        console.log(err);
+        alert("Error Fetching Data");
+    }
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>

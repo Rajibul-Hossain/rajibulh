@@ -1,0 +1,236 @@
+#include <WiFi.h>
+#include <LiquidCrystal_I2C.h>
+#include <time.h>
+#include <WebServer.h>
+#include <Firebase_ESP_Client.h>
+//timezone: GMT 
+const char* ntp="pool.ntp.org";
+const long gmt=19800;
+const int dst=0;
+const char* ssid="RAJESHHOSSAIN";
+const char* pass="jinaT@15";
+int mode=0;
+bool run = 0;
+unsigned long st = 0, t = 0;
+LiquidCrystal_I2C lcd(0x3F, 16, 2);
+WebServer srv(80);
+//firebase credentials
+#define api "AIzaSyAvRIid0QOoIY6opLNIV55aWALTn780tfc"
+#define db "https://begin-93ce2-default-rtdb.firebaseio.com/"
+FirebaseData fb;
+FirebaseAuth fb_auth;
+FirebaseConfig fb_cfg;
+
+unsigned long fb_t = 0;
+String last_msg = "", task="not yet given", song = "not playing", msg = "rajibul hossain";
+int views = 0, maxm = 6;
+bool lb = HIGH, lp = 0, scrl = 0;
+int ix = 0;
+unsigned long bt=0, sw_s=0, sw_t=0, scr_t=0;
+long pm = 1500;
+const char* page = R"rawliteral(
+<!DOCTYPE HTML><html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hub</title>
+<style>
+:root{--glass:rgba(255,255,255,.06);--border:rgba(255,255,255,.1);--accent:#0A84FF;}
+body{margin:0; font-family: sans-serif; background:#1a1a2e; display: flex; flex-direction: column; align-items:center; padding: 20px; color:#fff;}
+.card{width:100%; max-width:360px; padding:20px; margin-bottom:15px; border-radius:20px; background: var(--glass); backdrop-filter:blur(20px); border:1px solid var(--border);}
+button{width:100%; padding:12px; margin: 6px 0; border:none; border-radius:15px; background: rgba(255,255,255,0.8); color:#000; cursor: pointer;}
+input{width:100%; padding:12px; margin: 6px 0; border:1px solid var(--border); border-radius:12px; background: rgba(0,0,0,.4); color:#fff;}
+</style>
+<script>
+function c(u){fetch(u)}
+function s(e,i){let v=document.getElementById(i).value;if(v)fetch(e+"?text="+encodeURIComponent(v))}
+function t(){let v=document.getElementById('r').value||'Get Shit Done';fetch('/trigger?text='+encodeURIComponent(v))}
+</script>
+</head><body>
+<h2>Hub</h2>
+<div class="card">
+<button onclick="c('/mode?m=0')">📆 Date</button>
+<button onclick="c('/mode?m=1')">⏱️ StopWatch</button>
+<button onclick="c('/mode?m=2')">🍅Pomodoro</button>
+<button onclick="c('/mode?m=3')">📝Task</button>
+<button onclick="c('/mode?m=4')">🎵Song</button>
+<button onclick="c('/mode?m=5')">👀Views</button>
+</div>
+<div class="card">
+<input id="t" placeholder="Task to do"><button onclick="s('/task', 't')">set task</button>
+</div>
+<div class="card">
+<input id="r" placeholder="reminder">
+<button class="primary" onclick="t()">🚀 Fire</button>
+</div>
+<div class="card">
+<input id="s" placeholder="song">
+<button onclick="s('/song','s')">set song</button>
+</div>
+<div class="card">
+<button onclick="c('/timer?act=toggle')">▶ Play / Pause</button>
+<button onclick="c('/timer?act=reset')">⟲ Reset</button>
+</div>
+</body></html>
+)rawliteral";
+void setup(){
+    lcd.init();
+    lcd.backlight();
+    lcd.print("Booting...");
+    configTime(gmt,0, ntp);
+    WiFi.begin(ssid,pass);
+    while(WiFi.status()!=WL_CONNECTED){
+        delay(300); lcd.print(".");
+    }
+    
+    lcd.clear();
+    lcd.print(WiFi.localIP());
+    
+    fb_cfg.api_key = api;
+    fb_cfg.database_url = db;
+    Firebase.signUp(&fb_cfg, &fb_auth, "", "");
+    Firebase.begin(&fb_cfg, &fb_auth);
+    
+    srv.on("/", [](){srv.send(200, "text/html", page);});
+    
+    srv.on ("/mode", [](){
+        if (srv.hasArg("m")){
+            mode= srv.arg("m").toInt();
+            scrl = 0;
+            lcd.setCursor(0,1); lcd.print("                ");
+        }
+        srv.send(200, "text/plain", "ok");
+    });
+
+    srv.on("/task",[](){
+        if (srv.hasArg("text")){
+            task = srv.arg("text");
+            while (task.length() <16) task+= " ";
+            mode = 3;
+        }
+        srv.send(200, "text/plain", "ok");
+    });
+    
+    srv.on("/timer", [](){
+        if(srv.hasArg("act")){
+            String a=srv.arg("act");
+            if(a=="toggle"){
+                if(mode == 1){run=!run; if (run)sw_s=millis()-sw_t;}
+                else if (mode==2)run=!run;
+            }
+            if(a=="reset"){run=0; sw_t=0; pm = 1500;}
+        }
+        srv.send(200, "text/plain", "ok");
+    });
+    
+    srv.on ("/song", [](){
+        if(srv.hasArg("text")){
+            song=srv.arg("text");
+            while(song.length()<16)song+="  ";
+            mode=4;  
+        }
+        srv.send(200, "text/plain", "ok");
+    });
+    
+    srv.on("/trigger",[](){
+        msg=srv.hasArg("text")? srv.arg("text"):"Get Shit Done";
+        scrl = 1; ix=0; scr_t=millis();
+        srv.send(200, "text/plain", "ok");
+    });
+    
+    srv.begin();
+}
+
+void loop(){
+    srv.handleClient();
+
+    struct tm info;
+    if(getLocalTime(&info)){
+        char buff[9];
+        strftime(buff, 9, "%H:%M:%S", &info);
+        lcd.setCursor(4, 0); 
+        lcd.print(buff);
+    }
+    
+    if (millis() -fb_t>3000){
+        fb_t = millis();
+        if (Firebase.RTDB.getString(&fb, "/ghost/msg")){
+            String s = fb.stringData();
+            if (s != last_msg && s.length()) {
+                last_msg=s; msg = s; scrl = 1; ix=0; scr_t = millis();
+            }
+        }
+        if (Firebase.RTDB.getInt(&fb, "/ghost/views")){
+            views = fb.intData();
+        }
+    }
+    
+    btn();
+    tmr();
+    
+    if (scrl) scr(); else bot();
+}
+
+void btn(){
+    bool s = digitalRead(0);
+    if(s==LOW && lb==HIGH){bt = millis(); lp = 0;}
+    else if (s==LOW && lb==LOW){
+        if(millis()-bt>800 && !lp){lp=1;lp_f();} 
+    }
+    else if (s == HIGH && lb == LOW){
+        if (!lp) {mode++; if (mode >= maxm) mode = 0; lcd.setCursor(0,1); lcd.print("                ");}
+    }
+    lb = s;
+}
+
+void scr(){
+    if (millis() - scr_t >350){
+        scr_t = millis();
+        String p = "                "+msg+"                ";
+        if (ix <= p.length() - 16){
+            lcd.setCursor(0,1); lcd.print(p.substring(ix, ix+16));
+            ix++;
+        }
+        else{
+            scrl = 0;
+        }
+    }
+}
+void bot(){
+    lcd.setCursor(0,1);
+    switch(mode){
+        case 0: {
+            struct tm t; getLocalTime(&t);
+            char b[17]; strftime(b, 17, "%d %b %Y", &t);
+            lcd.print(b); break;
+        }
+        case 1: {
+            unsigned long s = sw_t / 1000;
+            char b[17]; sprintf(b, "sw %02d:%02d.%1d", (int)(s/60), (int)(s%60), (int)((sw_t%1000)/100));
+            lcd.print(b); break;
+        }
+        case 2: pm_f(); break;
+        case 3: lcd.print(task); break;
+        case 4: lcd.print(song); break;
+        case 5: hit(); break;
+    }
+} 
+void tmr(){
+    if(!run)return;
+    if(mode==1||scrl)sw_t=millis()-sw_s;
+    if((mode==2 || scrl) && millis()-st>=1000){
+        st=millis(); if (pm>0)pm--;
+    }
+}
+void lp_f(){
+    if (mode==1){run=!run; if (run)sw_s=millis()-sw_t;}
+    else if (mode==2){run=!run; if (!run)pm=1500;}
+}
+void pm_f(){
+    char b[17];
+    sprintf(b,"%s %02d:%02d",run?"study":"pomo",(int)(pm/60),(int)(pm%60));
+    lcd.print(b);
+}
+
+void hit(){
+    char b[17];
+    sprintf(b,"views: %d ",views);
+    lcd.print(b);
+}
