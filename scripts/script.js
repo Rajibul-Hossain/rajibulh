@@ -156,16 +156,28 @@ setTimeout(() => {
 }, 3000);
     showToast("GOAT STATUS", "Legendary theme unlocked!");
     console.log("GOAT mode on. You're the best, Rajibul.");
-}
-function runCmd(e) {
+}function runCmd(e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
         let inputBox = document.getElementById("termInput");
         let log = document.getElementById("termLog");
-        let cmd = inputBox.value.trim().toLowerCase();
+        
+        let rawCmd = inputBox.value.trim(); 
+        let cmd = rawCmd.toLowerCase();
 
-        log.innerHTML += `<p class="term-txt"><span class="term-prompt">C:\\Rajibul></span> ${cmd}</p>`;
+        // echo cmd
+        log.innerHTML += `<p class="term-txt"><span class="term-prompt">C:\\Rajibul></span> ${rawCmd}</p>`;
 
-        if (cmd === '/projects') {
+        if (cmd.startsWith('/msg')) {
+            let m = rawCmd.substring(4).trim(); 
+            
+            if (m === "") {
+                log.innerHTML += `<p class="term-txt" style="color:#ff5555;">> Error: missing text. Try: /msg hello desk</p>`;
+            } else {
+                if(window.ping) window.ping(m);
+                log.innerHTML += `<p class="term-txt" style="color:#55ff55;">> [OK] payload sent to physical desk.</p>`;
+            }
+        }
+        else if (cmd === '/projects') {
             log.innerHTML += `<p class="term-txt">> Opening inventory...</p>`;
             window.location.href = "#projects";
         } 
@@ -211,25 +223,25 @@ function runCmd(e) {
             log.innerHTML += `<p class="term-txt">> Rajibul | Developer | Builder</p>`;
         }
         else if (cmd === '/help') {
-            log.innerHTML += `<p class="term-txt">> Commands: /projects /skills /contact /about /botani /team /resume /github /time /date /whoami /clear</p>`;
+            log.innerHTML += `<p class="term-txt">> Commands: /projects /skills /contact /about /botani /team /resume /github /time /date /whoami /logs /msg [text] /clear</p>`;
         }
         else if (cmd === '/hack') {
             log.innerHTML += `<p class="term-txt" style="color:#00ff00;">> Access granted... LOL!</p>`;
         }
-        else if (cmd === '/clear') {
-            log.innerHTML = `<p class="term-txt">Terminal cleared.</p>`;
-        }
-                else if (cmd === '/help') {
-            log.innerHTML = `<p class="term-txt">> Commands: /projects /skills /contact /about /botani /team /resume /github /time /date /whoami /logs /clear</p>`;
-        }
         else if (cmd === '/crafting' || cmd === '/logs') {
             log.innerHTML += `<p class="term-txt" style="color:#55ff55;">> Accessing Crafting Logs...</p>`;
-            logs()
+            logs();
+        }
+        else if (cmd === '/clear') {
+            log.innerHTML = `<p class="term-txt">Terminal cleared.</p>`;
         }
         else if (cmd !== "") {
             log.innerHTML += `<p class="term-txt" style="color:#ff5555;">> Error: Unknown command. Try /help for a list of commands</p>`;
         }
-        
+       else if (cmd === '/portal') {
+            log.innerHTML += `<p class="term-txt" style="color:#00aaff;">> Initializing secure portal overlay...</p>`;
+            if (window.openPortal) window.openPortal();
+        }
         inputBox.value = "";
         log.scrollTop = log.scrollHeight;
     }

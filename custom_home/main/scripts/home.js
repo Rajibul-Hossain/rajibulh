@@ -58,3 +58,67 @@ chem.addEventListener("submit", function(){
      chem.stlye.height = "40vh";
      doBalance();
 });
+function mic(){
+    var rec = window.webkitSpeechRecognition ? new window.webkitSpeechRecognition():
+    (window.SpeechRecognition ? new window.SpeechRecognition() : null);
+    if (rec){
+        rec.lang = 'en-IN';
+        rec.onstart = () =>{
+            q.placeholder = "Listening......";
+        }
+        rec.onerror = e =>{
+            alert("Permissoon" + e.error);
+            q.placeholder = "what you wanna surf?";
+        }
+        rec.onnomatch = () => {
+            rec.start();
+        }
+        rec.onresult = e =>{
+            q.value += e.results[0][0].transcript;
+            q.placeholder = "Search On R One";
+        }
+        rec.start();
+    }
+}
+document.addEventListener('contextmenu', e =>{
+    e.preventDefault();
+});
+const u = (/Mobi|Android|iPhone|iPad|Windows Phone/.test(navigator.userAgent));
+val vl;
+mob.href = u ? "css/mob.css" :  "css/notmob.css";
+u ? vl=0 : vl = 69;
+
+const formulaElem = document.getElementById("sce");
+function doBalance(){
+    const msgElem = document.getElementById("msg");
+    const balancedElem = document.getElementById("rslt");
+    const codeOutElem = document.getElementById("code");
+    msgElem.textContent = "";
+    while (balancedElem.firstChild ! == null)
+        balancedElem.removeChild(balancedElem.firstChild);
+    while (codeOutElem.firstChild !== null)
+        codeOutElem.removeChild(codeOutElem.firstChild);
+    codeOutElem.textContent = " ";
+    const formulaStr = formulaElem.value;
+    let eqn;
+      try {
+        eqn = new Parser(formulaStr).parseEquation();
+    }
+   catch(e){
+    if(e instanceof ParseError){
+        msgElem.textContent = "sysntax err:" + e.message;
+        const start = e.start;
+        let end = e.end !== undefined ? e.end:e.start;
+        while (end > start && [" ", "\t"].includes(formulaStr.charAt(end - 1)))
+          end--;
+        if (start == end)
+                end++;
+        codeOutElem.textContent = formulaStr.substring(0, start);
+        if(end <= formulaStr.length){
+             codeOutElem.append(createElem("u", formulaStr.substring(start, end)));
+            codeOutElem.append(formulaStr.substring(end, formulaStr.length));
+
+        }
+    }
+   }
+}

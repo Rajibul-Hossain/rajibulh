@@ -166,7 +166,7 @@ async function sendMsg() {
         btn.innerText = "[ ERROR ]";
         btn.style.color = "#ff5555";
     }
-}
+} 
 let doc = document;
 let ogTitle = "Rajibul.exe | Terminal"; 
 doc.addEventListener("visibilitychange", () => {
@@ -176,3 +176,24 @@ doc.addEventListener("visibilitychange", () => {
         doc.title = ogTitle;
     }
 });
+window.bait = () => {
+    let i = document.getElementById('termInput');
+    i.value = '/msg ';
+    i.focus();
+    i.style.boxShadow = "0 0 15px #55ff55";
+    setTimeout(() => i.style.boxShadow = "none", 800);
+}
+let hnts = [
+    "hint: type /msg to physically ping my desk in kolkata",
+    "hint: type /botani to see my esp32 build",
+    "hint: type /secret for an easter egg",
+    "hint: type /projects to open inventory"
+];
+let hx = 0;
+setInterval(() => {
+    let h = document.getElementById('t-hint');
+    if(h) {
+        hx = (hx + 1) % hnts.length;
+        h.innerText = hnts[hx];
+    }
+}, 4000);

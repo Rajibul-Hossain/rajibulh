@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ESP32 Hub Control</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        /* Product Sans Font Import */
+        @font-face {
+            font-family: 'Product Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Product Sans'), url('https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Product Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Product Sans Bold'), url('https://fonts.gstatic.com/s/productsans/v5/HYpbU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2') format('woff2');
+        }
+
+        /* Modern System Variables */
+        :root {
+            --primary: #0A84FF; 
+            --primary-glow: rgba(10, 132, 255, 0.5);
+            --success: #30D158; 
+            --danger: #FF453A;  
+            --warning: #FF9F0A;
+            --surface: rgba(255, 255, 255, 0.05);
+            --surface-hover: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.12);
+            --text-main: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --blur: blur(30px) saturate(200%);
+            --shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6);
+            --bounce: cubic-bezier(0.25, 1, 0.5, 1);
+            --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0; font-family: 'Product Sans', sans-serif;
+            background-color: #07070a; color: var(--text-main);
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; padding: 40px 15px; overflow-x: hidden;
+        }
+
+        /* Complex Animated Background */
+        .bg-engine { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; background: #07070a; }
+        .bg-mesh { position: absolute; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.5; }
+        .blob { position: absolute; filter: blur(90px); opacity: 0.5; animation: float 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); border-radius: 50%; }
+        .blob-1 { top: -20%; left: -10%; width: 40vw; height: 40vw; background: #5E5CE6; }
+        .blob-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: #0A84FF; animation-delay: -7s; }
+        .blob-3 { top: 30%; left: 40%; width: 30vw; height: 30vw; background: #BF5AF2; animation-delay: -14s; }
+
+        @keyframes float { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(15vw, 15vh) rotate(180deg) scale(1.3); } }
+
+        /* Typography & Layout */
+        h2 { font-weight: 700; font-size: 26px; margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .header-section { width: 100%; max-width: 400px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; opacity: 0; transform: translateY(20px); }
+        .greeting { display: flex; flex-direction: column; }
+        .greeting span { font-size: 14px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .clock { font-size: 22px; font-weight: 700; background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 14px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
+
+        /* Views */
+        #lock-screen, #dashboard-view { width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; transition: all 0.5s var(--bounce); perspective: 1000px; }
+        #dashboard-view { display: none; opacity: 0; }
+
+        /* 3D Interactive Cards */
+        .card {
+            width: 100%; padding: 20px; margin-bottom: 16px; border-radius: 24px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--border); border-top: 1px solid rgba(255,255,255,0.2);
+            box-shadow: var(--shadow);
+            position: relative; overflow: hidden; transform-style: preserve-3d; transition: transform 0.1s ease;
+        }
+        
+        .dash-card { opacity: 0; transform: translateY(40px) rotateX(10deg); }
+        .card.animate-in { animation: popIn 0.8s var(--spring) forwards; }
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+
+        @keyframes popIn { to { opacity: 1; transform: translateY(0) rotateX(0); } }
+
+        /* Hardware Metrics Mini-UI */
+        .metric-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 700; }
+        .metric-bar-bg { flex: 1; height: 8px; background: rgba(0,0,0,0.4); border-radius: 4px; margin: 0 12px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+        .metric-bar-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s var(--bounce); position: relative; }
+        .metric-bar-fill::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 2s infinite; }
+        
+        /* Node Status List */
+        .node-list { display: flex; flex-direction: column; gap: 10px; }
+        .node-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 12px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); }
+        .node-info { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .status-dot.online { background: var(--success); box-shadow: 0 0 10px var(--success); animation: pulseGreen 2s infinite; }
+        .status-dot.offline { background: var(--warning); opacity: 0.5; }
+
+        /* Smooth Sliders */
+        .slider-group { margin-top: 10px; }
+        .slider-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 10px 0; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 12px; background: rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid var(--border); box-shadow: inset 0 1px 4px rgba(0,0,0,0.5); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.3); margin-top: -7px; cursor: grab; transition: transform 0.2s; }
+        input[type=range]::-webkit-slider-thumb:active { transform: scale(1.2); cursor: grabbing; }
+
+        /* Buttons & Inputs */
+        .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button { width: 100%; padding: 16px; border: none; border-radius: 16px; background: rgba(255, 255, 255, 0.08); color: var(--text-main); font-size: 14px; font-family: 'Product Sans', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s var(--bounce); display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        button:hover { background: var(--surface-hover); transform: translateY(-2px); }
+        button:active { transform: scale(0.95); }
+        button.primary { background: linear-gradient(135deg, #0070e0, var(--primary)); color: white; box-shadow: 0 8px 20px var(--primary-glow); border-top: 1px solid rgba(255,255,255,0.3); }
+        button.success { background: linear-gradient(135deg, #28a745, var(--success)); box-shadow: 0 8px 20px rgba(48, 209, 88, 0.3); border-top: 1px solid rgba(255,255,255,0.3); }
+        
+        .input-group { display: flex; gap: 10px; }
+        input[type="text"], input[type="password"] { flex: 1; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: rgba(0, 0, 0, 0.3); color: var(--text-main); font-family: 'Product Sans', sans-serif; font-size: 15px; font-weight: 700; transition: all 0.3s ease; text-align: center; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); backdrop-filter: blur(5px); }
+        input:focus { border-color: var(--primary); background: rgba(0, 0, 0, 0.5); box-shadow: 0 0 0 4px var(--primary-glow), inset 0 2px 5px rgba(0,0,0,0.3); outline: none; }
+
+        /* Lock Screen Hologram */
+        .lock-container { position: relative; margin-bottom: 30px; }
+        .lock-icon { font-size: 56px; animation: floatLock 4s infinite ease-in-out; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .scanner-line { position: absolute; top: 0; left: -10px; right: -10px; height: 3px; background: var(--primary); box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary); border-radius: 50%; animation: scan 2s infinite linear; opacity: 0.8; }
+
+        @keyframes floatLock { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes scan { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+        @keyframes pulseGreen { 0% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(48, 209, 88, 0); } 100% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0); } }
+
+        /* In-App Toast System */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast { background: rgba(10, 132, 255, 0.2); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--primary); padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transform: translateX(120%); animation: slideToast 0.5s var(--spring) forwards; display: flex; align-items: center; gap: 10px; }
+        .toast.hiding { animation: slideOutToast 0.4s ease-in forwards; }
+        @keyframes slideToast { to { transform: translateX(0); } }
+        @keyframes slideOutToast { to { transform: translateX(120%); opacity: 0; } }
+
+        /* Branding */
+        .brand-tag { position: fixed; bottom: 15px; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; z-index: 10; }
+        
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+
+    <div class="bg-engine">
+        <div class="bg-mesh"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <div id="lock-screen">
+        <div class="lock-container">
+            <div class="lock-icon">🔒</div>
+            <div class="scanner-line"></div>
+        </div>
+        <h2 style="margin-bottom: 20px;">Secure Access</h2>
+        <div class="card" id="login-card">
+            <input type="password" id="authInput" placeholder="System Passcode" onkeypress="handleLoginPress(event)">
+            <button class="primary" onclick="verifyAuth()" style="margin-top: 10px;">Authenticate</button>
+        </div>
+    </div>
+
+    <div id="dashboard-view">
+        
+        <div class="header-section dash-card delay-1" id="dash-header">
+            <div class="greeting">
+                <span>Welcome back</span>
+                <h2>Rajibul</h2>
+            </div>
+            <div class="clock" id="live-clock">00:00</div>
+        </div>
+
+        <div class="card dash-card delay-2 tiltable">
+            <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 15px; letter-spacing: 1px;">SYSTEM DIAGNOSTICS</div>
+            <div class="metric-row">
+                <span>CPU Load</span>
+                <div class="metric-bar-bg"><div class="metric-bar-fill" id="cpu-bar" style="width: 30%;"></div></div>
+                <span id="cpu-text" style="width: 35px; text-align: right;">30%</span>
+            </div>
+            <div class="metric-row">
+                <span>RAM Usage</span>
+                <div class="metric-bar-bg"><div class="metric-bar-fill" id="ram-bar" style="width: 60%; background: var(--warning);"></div></div>
+                <span id="ram-text" style="width: 35px; text-align: right;">60%</span>
+            </div>
+        </div>
+
+        <div class="card dash-card delay-3 tiltable">
+            <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px;">CLUSTER STATUS</div>
+            <div class="node-list">
+                <div class="node-item">
+                    <div class="node-info"><span>⚡</span> ESP32 Main Hub</div>
+                    <div class="status-dot online"></div>
+                </div>
+                <div class="node-item">
+                    <div class="node-info"><span>🍓</span> Raspberry Pi 3B</div>
+                    <div class="status-dot online"></div>
+                </div>
+                <div class="node-item">
+                    <div class="node-info"><span>📡</span> ESP8266 Sensor</div>
+                    <div class="status-dot offline"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card dash-card delay-4 tiltable">
+            <div class="mode-grid" style="margin-bottom: 15px;">
+                <button onclick="triggerAction('Mode: Date', () => db.ref('/hub/mode').set(0))">📆 Date</button>
+                <button onclick="triggerAction('Mode: StopWatch', () => db.ref('/hub/mode').set(1))">⏱️ Watch</button>
+                <button onclick="triggerAction('Mode: Pomodoro', () => db.ref('/hub/mode').set(2))">🍅 Pomo</button>
+                <button onclick="triggerAction('Mode: Task', () => db.ref('/hub/mode').set(3))">📝 Task</button>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label"><span>LED Brightness</span> <span id="pwm-val">50%</span></div>
+                <input type="range" min="0" max="100" value="50" id="pwm-slider" oninput="updatePWM(this.value)">
+            </div>
+        </div>
+
+        <div class="card dash-card delay-4 tiltable">
+            <div class="input-group" style="margin-bottom: 12px;">
+                <input type="text" id="taskInput" placeholder="Deploy new task..." onkeypress="if(event.key==='Enter') setTask()">
+                <button class="primary" onclick="setTask()" style="width: auto; padding: 0 20px;">Deploy</button>
+            </div>
+            
+            <button class="primary" id="playBtn" onclick="toggleTimer()" style="margin-bottom: 8px;">
+                ▶ Toggle Timer
+            </button>
+            <div style="display: flex; gap: 10px;">
+                <button style="flex: 1;" onclick="triggerAction('Timer Reset', () => { db.ref('/hub/timerReset').set(true); db.ref('/hub/timerRunning').set(false); })">⟲ Reset</button>
+                <button class="success" style="flex: 1;" onclick="testNotification()">🔔 Test Push</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="brand-tag"><div class="status-dot online"></div> RAJIBUL</div>
+
+    <script>
+        // --- AUTHENTICATION ---
+        function verifyAuth() {
+            const input = document.getElementById('authInput').value;
+            const loginCard = document.getElementById('login-card');
+            
+            if (input === 'rajibuliscooked') {
+                if ("vibrate" in navigator) navigator.vibrate(50);
+                document.getElementById('lock-screen').style.opacity = '0';
+                document.getElementById('lock-screen').style.transform = 'translateY(-30px) scale(0.95)';
+                
+                setTimeout(() => {
+                    document.getElementById('lock-screen').style.display = 'none';
+                    const dashView = document.getElementById('dashboard-view');
+                    dashView.style.display = 'flex';
+                    void dashView.offsetWidth; // Reflow
+                    dashView.style.opacity = '1';
+                    
+                    document.getElementById('dash-header').classList.add('animate-in');
+                    document.querySelectorAll('.dash-card').forEach(card => card.classList.add('animate-in'));
+                    
+                    startLiveSystems();
+                    showToast("System Unlocked Successfully");
+                }, 400);
+            } else {
+                if ("vibrate" in navigator) navigator.vibrate([50, 100, 50]);
+                loginCard.style.transform = "translateX(-10px)";
+                setTimeout(() => loginCard.style.transform = "translateX(10px)", 100);
+                setTimeout(() => loginCard.style.transform = "translateX(0)", 200);
+                document.getElementById('authInput').style.borderColor = 'var(--danger)';
+            }
+        }
+
+        function handleLoginPress(e) { if (e.key === 'Enter') verifyAuth(); }
+
+        // --- FIREBASE ---
+        const firebaseConfig = { apiKey: "AIzaSyAvRIid0QOoIY6opLNIV55aWALTn780tfc", databaseURL: "https://begin-93ce2-default-rtdb.firebaseio.com", projectId: "begin-93ce2" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        let isTimerRunning = false;
+        let initialLoad = true;
+        // --- CORE FUNCTIONS & TOASTS ---
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<span>⚡</span> ${message}`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        function triggerAction(actionName, callback) {
+            if ("vibrate" in navigator) navigator.vibrate(40);
+            callback();
+            showToast(`${actionName} Deployed`);
+        }
+
+        function setTask() { 
+            const inputEl = document.getElementById('taskInput');
+            const val = inputEl.value.trim();
+            if(val) { 
+                triggerAction('Task Update', () => { db.ref('/hub/task').set(val); db.ref('/hub/mode').set(3); });
+                inputEl.value = ''; inputEl.blur();     
+            }
+        }
+
+        function toggleTimer() { 
+            isTimerRunning = !isTimerRunning; 
+            triggerAction(isTimerRunning ? 'Timer Started' : 'Timer Paused', () => db.ref('/hub/timerRunning').set(isTimerRunning));
+        }
+
+        let slideTimeout;
+        function updatePWM(val) {
+            document.getElementById('pwm-val').innerText = `${val}%`;
+            clearTimeout(slideTimeout);
+            slideTimeout = setTimeout(() => {
+                db.ref('/hub/pwm').set(parseInt(val));
+                showToast(`Brightness set to ${val}%`);
+            }, 300); // Debounce DB writes
+        }
+
+        function testNotification() {
+            triggerAction('Push Notification', () => {
+                db.ref('/notifications/trigger/task').set("SYSTEM TEST 🚀");
+                db.ref('/notifications/trigger/timestamp').set(Date.now());
+            });
+        }
+
+        // --- DB LISTENERS ---
+        db.ref('/hub/timerRunning').on('value', (snap) => {
+            isTimerRunning = snap.val() || false;
+            const playBtn = document.getElementById('playBtn');
+            playBtn.innerHTML = isTimerRunning ? '⏸ Pause Timer' : '▶ Play Timer';
+            playBtn.style.background = isTimerRunning ? 'rgba(255, 255, 255, 0.2)' : 'linear-gradient(135deg, #0070e0, var(--primary))';
+        });
+        // --- PUSH NOTIFICATION LISTENER ---
+db.ref('/notifications/trigger').on('value', (snap) => {
+    if(initialLoad) { 
+        initialLoad = false; 
+        return; 
+    } 
+    
+    const data = snap.val();
+    if(data && data.task) {
+        
+        // 1. Hardware Vibration (Android)
+        if ("vibrate" in navigator) {
+            navigator.vibrate([300, 100, 300]);
+        }
+
+        // 2. Native OS Push Notification
+        if (Notification.permission === "granted") {
+            new Notification("System Alert 🚀", {
+                body: data.task,
+                icon: "https://cdn-icons-png.flaticon.com/512/3239/3239045.png",
+                badge: "https://cdn-icons-png.flaticon.com/512/3239/3239045.png" // Adds tiny icon on Android status bar
+            });
+        } else if (Notification.permission !== "denied") {
+            // Ask for permission if not granted yet
+            Notification.requestPermission();
+        }
+    }
+});
+
+        // --- LIVE UI SYSTEMS (Simulations & Clocks) ---
+        function startLiveSystems() {
+            // Live Clock
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('live-clock').innerText = now.toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric" });
+            }, 1000);
+
+            // Simulate minor fluctuations in CPU/RAM for the "alive" feeling
+            setInterval(() => {
+                const cpu = Math.floor(25 + Math.random() * 15);
+                const ram = Math.floor(58 + Math.random() * 5);
+                document.getElementById('cpu-bar').style.width = `${cpu}%`;
+                document.getElementById('cpu-text').innerText = `${cpu}%`;
+                document.getElementById('ram-bar').style.width = `${ram}%`;
+                document.getElementById('ram-text').innerText = `${ram}%`;
+            }, 3000);
+        }
+
+        // --- 3D TILT EFFECT FOR CARDS ---
+        document.querySelectorAll('.tiltable').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -5; // Max 5 deg tilt
+                const rotateY = ((x - centerX) / centerX) * 5;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        // Push Permissions Check
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+    </script>
+</body>
+</html>
