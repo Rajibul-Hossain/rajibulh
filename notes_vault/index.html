@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Vault | Premium Minecraft Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="global-loader" class="loader-overlay">
+        <h1 style="color: var(--mc-text);">Generating World...</h1>
+        <div class="xp-bar" style="width: 300px;"><div class="xp-fill" style="width: 100%; background: var(--mc-diamond);"></div></div>
+    </div>
+    
+    <div id="toast-container"></div>
+<!-- ================= AUTH VIEWS ================= -->
+    <div id="view-register" class="view active">
+        <div style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;">
+            <div class="mc-panel" style="width:100%; max-width:460px; text-align: center;">
+                <h1>Create Account</h1>
+                <p style="margin-bottom: 40px;">Join the Notes Vault server.</p>
+                <form id="form-register">
+                    <div class="input-group"><label>Player Name</label><input type="text" id="reg-name" required></div>
+                    <div class="input-group"><label>Email</label><input type="email" id="reg-email" required></div>
+                    <div class="input-group"><label>Password</label><input type="password" id="reg-password" minlength="6" required></div>
+                    <button type="submit" class="mc-btn mc-btn-primary" style="width: 100%; margin-top: 16px;">Sign Up</button>
+                </form>
+                <div style="margin-top:32px; font-size:1.2rem;"><a href="#" onclick="navigate('view-login')" style="color:var(--mc-text-muted); text-decoration: none;">Already have an account? Log In &rarr;</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-login" class="view">
+        <div style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;">
+            <div class="mc-panel" style="width:100%; max-width:460px; text-align: center;">
+                <div class="status-pill" style="margin-bottom: 24px;"><div class="status-dot"></div>Server Online</div>
+                <h1>Notes Vault</h1>
+                <p style="margin-bottom: 40px; color: var(--mc-text-muted);">Authenticate to join the server.</p>
+                <form id="form-login">
+                    <div class="input-group"><label>Email</label><input type="email" id="login-email" required></div>
+                    <div class="input-group"><label>Password</label><input type="password" id="login-password" required></div>
+                    <button type="submit" class="mc-btn mc-btn-primary" style="width: 100%; margin-top: 16px;">Log In</button>
+                </form>
+                <div style="margin-top:32px; font-size:1.2rem;"><a href="#" onclick="navigate('view-register')" style="color:var(--mc-text-muted); text-decoration: none;">&larr; Back to Sign Up</a></div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= MAIN APP ================= -->
+    <div id="view-app" class="view">
+        <div class="app-layout">
+            
+            <!-- Sidebar (Inventory Side) -->
+            <aside class="sidebar">
+                <div class="mc-panel" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h1 style="text-align: center; font-size: 1.8rem; margin-bottom: 32px;">VAULT</h1>
+                        <nav style="display:flex; flex-direction:column; gap:8px;">
+                            <div class="nav-item active" onclick="switchTab('tab-home', this)">[ Dashboard ]</div>
+                            <div class="nav-item" onclick="switchTab('tab-subjects', this)">[ Notes ]</div>
+                            <div class="nav-item" onclick="switchTab('tab-bookmarks', this)">[ Bookmarks ]</div>
+                            <div class="nav-item" onclick="switchTab('tab-crafting', this)">[ Crafting Table ]</div>
+                            <div class="nav-item" onclick="switchTab('tab-arena', this)">[ Mob Arena ]</div>
+                            <div class="nav-item" id="nav-admin" style="display:none; color: var(--mc-redstone);" onclick="switchTab('tab-admin', this)">[ OP Commands ]</div>
+                        </nav>
+                        
+                        <!-- 3D CREEPER PET WIDGET -->
+                        <div class="creeper-container">
+                            <div class="creeper-head" id="creeper">
+                                <div class="cube-face front"></div><div class="cube-face back"></div>
+                                <div class="cube-face right"></div><div class="cube-face left"></div>
+                                <div class="cube-face top"></div><div class="cube-face bottom"></div>
+                            </div>
+                            <div class="creeper-shadow"></div>
+                            <p style="margin-top: 12px; font-family: var(--font-text); font-size: 1.2rem; color: var(--mc-text-muted); opacity: 0.6;">It's watching you...</p>
+                        </div>
+                    </div>
+<div>
+                        <div class="mc-slot" style="padding:16px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                <div style="width:36px; height:36px; border: 2px solid var(--mc-border-light); overflow:hidden; background:#000;">
+                                    <img id="sidebar-avatar" src="https://api.dicebear.com/7.x/pixel-art/svg?seed=steve" style="width:100%; height:100%; object-fit:cover; image-rendering:pixelated;">
+                                </div>
+                                <p style="font-family: var(--font-pixel); color: var(--mc-diamond); font-size: 1.2rem;" id="user-display-name">Player1</p>
+                            </div>
+                            <button id="btn-settings" class="mc-btn" style="padding: 6px 10px; font-size: 1.2rem;" onclick="openSettings()">⚙️</button>
+                        </div>
+                        <button onclick="authLogout()" class="mc-btn" style="width:100%;">Quit Game</button>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- Content -->
+            <main style="padding: 16px 0 48px 0; width: 100%;">
+                
+                <!-- TAB: HOME -->
+                <div id="tab-home" class="tab-content" style="display:block;">
+                    <header style="margin-bottom: 40px;">
+                        <h1 id="greeting">Good evening.</h1>
+                        <p>Welcome back to your base.</p>
+                    </header>
+                    <div class="bento-grid">
+                        
+                        <!-- 1. QUEST LOG (Advancements) -->
+                        <div class="mc-panel bento-wide interactive" id="quest-log-widget">
+                            <div style="display: flex; gap: 16px; align-items: center; height: 100%;">
+                                <div class="mc-enchanted-book">📘</div>
+                                <div style="flex-grow: 1;">
+                                    <h3 style="color: #ffff55; margin-bottom: 8px;">Advancements</h3>
+                                    <div style="background: #111; border: 2px solid #555; padding: 12px; margin-bottom: 8px; position: relative;">
+                                        <div style="position: absolute; top: -10px; left: 10px; background: #111; padding: 0 4px; color: #FF55FF; font-size: 0.9rem;">Main Quest</div>
+                                        <p id="quest-main" style="color: #fff; font-size: 1.2rem;">Load a chunk to begin...</p>
+                                    </div>
+                                    <div style="background: #111; border: 2px solid #555; padding: 12px; position: relative;">
+                                        <div style="position: absolute; top: -10px; left: 10px; background: #111; padding: 0 4px; color: #55FFFF; font-size: 0.9rem;">Side Quest</div>
+                                        <p id="quest-side" style="color: #aaa; font-size: 1.2rem;">Review your inventory.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. KNOWLEDGE FURNACE -->
+                        <div class="mc-panel bento-wide interactive" id="furnace-widget" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <h3 style="color: #aaaaaa; margin-bottom: 12px;">Knowledge Furnace</h3>
+                            <div style="display: flex; align-items: center; gap: 24px; background: #222; padding: 16px 32px; border: 4px solid #111; box-shadow: inset 4px 4px 0 rgba(0,0,0,0.5);">
+                                <!-- Input Slot -->
+                                <div class="mc-slot" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem;" id="furnace-input">❓</div>
+                                
+                                <!-- Fire & Arrow -->
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div class="furnace-fire" id="furnace-fire">🔥</div>
+                                    <div style="width: 60px; height: 20px; background: #111; border: 2px solid #333; position: relative; overflow: hidden; box-shadow: inset 2px 2px 0 rgba(0,0,0,0.8);">
+                                        <div id="furnace-progress" style="width: 0%; height: 100%; background: #fff; border-right: 2px solid #aaa;"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Output Slot -->
+                                <div class="mc-slot" style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem;" id="furnace-output">💎</div>
+                            </div>
+                            <p id="furnace-status" style="margin-top: 12px; font-size: 1.2rem; color: #55FF55;">Furnace is idle.</p>
+                        </div>
+                        
+<!-- COMMAND BLOCK WIDGET (FULL WIDTH POMODORO TIMER) -->
+                        <div class="mc-panel interactive" id="command-block" style="grid-column: span 4; background-color: #211621; border-color: #3b283b #0a050a #0a050a #3b283b; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; padding: 40px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; width: 100%;">
+                                <h3 style="color: #ffaa00; font-size: 2rem;">STUDY!!!!!!!!!</h3>
+                                <span class="status-pill" style="border-color: #ff5555; color: #ff5555; background: #111; padding: 8px 16px; font-size: 1.2rem;" id="timer-status">IDLE</span>
+                            </div>
+                            
+                            <div style="text-align: center; z-index: 2; margin: 48px 0;">
+                                <div id="pomodoro-time" style="font-size: 8rem; color: #ff5555; text-shadow: 6px 6px 0px #550000; font-family: var(--font-text); line-height: 1;">25:00</div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: center; gap: 24px; z-index: 2;">
+                                <button class="mc-btn" style="background-color: #550000; border-color: #ff5555 #330000 #330000 #ff5555; color: #ffaa00; padding: 16px 40px; font-size: 1.5rem;" onclick="startTimer(25)">Focus</button>
+                                <button class="mc-btn" style="background-color: #003300; border-color: #55ff55 #001100 #001100 #55ff55; color: #55ff55; padding: 16px 40px; font-size: 1.5rem;" onclick="startTimer(5)">Break</button>
+                                <button class="mc-btn" style="padding: 16px 40px; font-size: 1.5rem;" onclick="resetTimer()">Reset</button>
+                            </div>
+
+                            <!-- Command Block Grid Texture -->
+                            <div style="position: absolute; inset: 0; background-image: radial-gradient(#ffaa00 2px, transparent 2px); background-size: 32px 32px; opacity: 0.05; z-index: 1;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: SUBJECTS -->
+                <div id="tab-subjects" class="tab-content" style="display:none;">
+                    <header style="margin-bottom: 40px;"><h1>The Library</h1><p>Select a subject to read.</p></header>
+                    <div class="bento-grid" id="subjects-container"><p>Loading blocks...</p></div>
+                </div>
+
+                <!-- TAB: CHAPTER LIST -->
+                <div id="tab-chapters" class="tab-content" style="display:none;">
+                    <header style="margin-bottom: 40px;">
+                        <button class="mc-btn" style="margin-bottom: 24px;" onclick="switchTab('tab-subjects')">&larr; Back</button>
+                        <h1 id="chapter-list-title">Notes</h1>
+                    </header>
+                    <div class="bento-grid" id="chapters-list-container"></div>
+                </div>
+
+                <!-- TAB: PDF READER (With Brewing Stand) -->
+                <div id="tab-reader" class="tab-content" style="display:none;">
+                    <header style="margin-bottom: 24px; display:flex; justify-content:space-between; align-items:flex-end;">
+                        <div>
+                            <button class="mc-btn" style="margin-bottom: 16px;" onclick="switchTab('tab-chapters')">&larr; Close</button>
+                            <h2 id="reader-title" style="color: var(--mc-diamond);">Reading...</h2>
+                        </div>
+                        <div style="display:flex; gap:16px;">
+                            <button class="mc-btn" onclick="toggleBrewing()" style="color: #FF55FF;">Brewing Stand</button>
+                            <button class="mc-btn" id="btn-toggle-bookmark">Save</button>
+                            <button class="mc-btn mc-btn-primary" id="btn-mark-complete">Mark Cleared</button>
+                        </div>
+                    </header>
+                    <div style="display:flex; gap: 24px;">
+                        <div class="reader-container" id="reader-frame-container" style="flex-grow: 1;"></div>
+                        <!-- BREWING STAND SCRATCHPAD -->
+                        <div class="mc-panel" id="brewing-stand" style="display:none; width: 320px; height: 75vh; margin-top: 24px;">
+                            <h3 style="color:#FF55FF; margin-bottom: 8px;">Brewing Stand</h3>
+                            <p style="font-size:1.1rem; margin-bottom:16px;">Rough notes & scratchpad.</p>
+                            <textarea id="brew-notes" style="width:100%; height:60%; background:#1e1e1f; color:#fff; border:4px solid #111; font-family:var(--font-text); font-size:1.4rem; padding:12px; outline:none; box-shadow: inset 4px 4px 0px rgba(0,0,0,0.5);" placeholder="Write notes here... Wrap secrets in **asterisks** to hide them."></textarea>
+                            <button class="mc-btn" style="width:100%; margin-top:16px; background-color:#333; color:#aaa;" onclick="applyAnvil()">Use Anvil (Obfuscate)</button>
+                        </div>
+                    </div>
+                </div>
+<!-- TAB: CRAFTING TABLE (DYNAMIC ENGINE) -->
+                <div id="tab-crafting" class="tab-content" style="display:none;">
+                    <header style="margin-bottom: 40px;">
+                        <h1 style="color: #55FF55;">Crafting Table</h1>
+                        <p>Select your level and synthesize formulas from raw components.</p>
+                    </header>
+                    
+                    <div style="display:flex; gap:16px; margin-bottom: 24px;">
+                        <select class="mc-select" id="craft-level" onchange="loadCraftingInventory()">
+                            <option value="class_1_to_8">Classes 1-8</option>
+                            <option value="class9">Class 9</option>
+                            <option value="class10" selected>Class 10 CBSE</option>
+                            <option value="class11">Class 11</option>
+                            <option value="class12_and_jee">Class 12 / JEE Adv</option>
+                            <option value="neet">NEET UG</option>
+                        </select>
+                        <select class="mc-select" id="craft-subject" onchange="loadCraftingInventory()">
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="math">Mathematics</option>
+                            <option value="biology">Biology (NEET)</option>
+                            <option value="science">General Science</option>
+                        </select>
+                        <select class="mc-select" id="craft-subject" onchange="loadCraftingInventory()">
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="math">Mathematics</option>
+                        </select>
+                    </div>
+
+                    <div style="display:flex; gap:32px;">
+                        <div class="mc-panel" style="width: 320px;">
+                            <h3>Inventory</h3>
+                            <div class="inventory-grid" id="crafting-inventory">
+                                <!-- JS WILL POPULATE THIS -->
+                            </div>
+                        </div>
+                        <div class="mc-panel" style="flex-grow: 1; text-align: center;">
+                            <h3>Synthesizer Grid</h3>
+                            <div class="mc-slot" id="craft-grid" style="min-height: 100px; margin: 24px auto; font-size: 2.5rem; padding: 16px; width: 90%; color: var(--mc-diamond); text-shadow: 3px 3px 0px #000; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px;"></div>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <button class="mc-btn mc-btn-primary" onclick="checkCraft()">Craft Formula</button>
+                                <button class="mc-btn" onclick="clearCraft()">Clear Grid</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: MOB ARENA (DYNAMIC BOSS RUSH) -->
+                <div id="tab-arena" class="tab-content" style="display:none;">
+                    <header style="margin-bottom: 40px;">
+                        <h1 style="color: var(--mc-redstone);">Mob Arena</h1>
+                        <p>PYQ Boss Rush. Select your difficulty and survive.</p>
+                    </header>
+                    
+                    <div style="display:flex; gap:16px; margin-bottom: 24px; justify-content:center;" id="arena-setup">
+<select class="mc-select" id="arena-level">
+                            <option value="class_1_to_8">Basic Mobs (Class 1-8)</option>
+                            <option value="class9">Cave Spider (Class 9)</option>
+                            <option value="class10" selected>Iron Golem (Class 10 Boards)</option>
+                            <option value="jee">The Wither (JEE Main & Adv)</option>
+                            <option value="neet">Ender Dragon (NEET UG)</option>
+                        </select>
+                        <button class="mc-btn mc-btn-primary" onclick="startArena()">SPAWN BOSS</button>
+                    </div>
+
+                    <div class="mc-panel" style="text-align: center; padding: 40px; display:none;" id="arena-battleground">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                            <h2 id="boss-name" style="font-size: 2.5rem; color: #AA00AA; text-transform:uppercase;">Loading...</h2>
+                            <p style="color:var(--mc-text-muted); font-size:1.5rem;">Score: <span id="arena-score" style="color:var(--mc-emerald);">0</span></p>
+                        </div>
+                        
+                        <div style="width: 100%; height: 32px; background: #222; border: 4px solid #111; margin: 16px auto 32px auto; position: relative;">
+                            <div id="boss-hp" style="width: 100%; height: 100%; background: #FF5555; transition: width 0.2s;"></div>
+                            <span style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-pixel); text-shadow:2px 2px 0 #000;">BOSS HP</span>
+                        </div>
+                        
+                        <div class="mc-slot" style="padding: 32px; margin-bottom:24px;">
+                            <p id="arena-q" style="font-size: 2rem; color: #fff;">Question loads here...</p>
+                        </div>
+                        
+                        <div class="arena-options-grid" id="arena-options">
+                            <!-- JS WILL POPULATE OPTIONS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: BOOKMARKS -->
+                <div id="tab-bookmarks" class="tab-content" style="display:none;">
+                    <header style="margin-bottom: 40px;"><h1>Saved Items</h1><p>Your saved references.</p></header>
+                    <div class="bento-grid" id="bookmarks-container"></div>
+                </div>
+
+                <!-- TAB: ADMIN CONSOLE -->
+                <div id="tab-admin" class="tab-content" style="display:none;">
+                    <header style="margin-bottom: 40px;"><h1 style="color: var(--mc-redstone);">OP Commands</h1></header>
+                    
+                    <div style="display:flex; gap:16px; margin-bottom: 32px; border-bottom: 4px solid var(--mc-panel); padding-bottom: 24px;">
+                        <button class="mc-btn" onclick="showAdminSection('admin-users')">Pending Players</button>
+                        <button class="mc-btn" onclick="showAdminSection('admin-add-subject')">Add Subject</button>
+                        <button class="mc-btn mc-btn-accent" onclick="showAdminSection('admin-add-chapter')">Upload PDF</button>
+                    </div>
+
+                    <div id="admin-users" class="admin-section">
+                        <div class="mc-panel">
+                            <h3 style="margin-bottom: 24px; color: var(--mc-text);">Pending Whitelist Approvals</h3>
+                            <div id="admin-requests-container" style="display:flex; flex-direction:column; gap:16px;"></div>
+                        </div>
+                    </div>
+                    <div id="admin-add-subject" class="admin-section" style="display:none;">
+                        <div class="mc-panel">
+                            <h3 style="margin-bottom: 24px; color: var(--mc-text);">Create New Subject</h3>
+                            <form id="form-add-subject">
+                                <div class="input-group"><label>Subject Name</label><input type="text" id="add-sub-name" required></div>
+                                <div class="input-group"><label>Description</label><input type="text" id="add-sub-desc" required></div>
+                                <button type="submit" class="mc-btn mc-btn-primary">Craft Subject</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="admin-add-chapter" class="admin-section" style="display:none;">
+                        <div class="mc-panel">
+                            <h3 style="margin-bottom: 24px; color: var(--mc-diamond);">Upload Chapter Note (PDF)</h3>
+                            <form id="form-add-chapter">
+                                <div class="input-group"><label>Select Subject</label><select id="add-chap-subject" required><option value="">Loading...</option></select></div>
+                                <div class="input-group"><label>Chapter Title</label><input type="text" id="add-chap-title" required></div>
+                                <div class="input-group"><label>Description</label><textarea id="add-chap-desc" rows="2" required></textarea></div>
+                                <div class="input-group"><label>Chapter Number / Order</label><input type="number" id="add-chap-order" value="1" required></div>
+                                <div class="input-group"><label>PDF File</label><input type="file" id="add-chap-file" accept="application/pdf" style="padding-top:12px;" required></div>
+                                <button type="submit" class="mc-btn mc-btn-accent" id="btn-upload-chap">Upload & Publish</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ================= MINECRAFT HUD HOTBAR ================= -->
+<!-- ================= MINECRAFT HUD HOTBAR ================= -->
+    <div class="mc-hotbar" id="hud-hotbar">
+        <div class="hotbar-slot active" data-slot="1" data-tip="Dashboard" onclick="selectHotbar(1)"><span class="item">🧭</span><span class="slot-num">1</span></div>
+        <div class="hotbar-slot" data-slot="2" data-tip="Library" onclick="selectHotbar(2)"><span class="item">📚</span><span class="slot-num">2</span></div>
+        <div class="hotbar-slot" data-slot="3" data-tip="Bookmarks" onclick="selectHotbar(3)"><span class="item">🔖</span><span class="slot-num">3</span></div>
+        <div class="hotbar-slot" data-slot="4" data-tip="Crafting Table" onclick="selectHotbar(4)"><span class="item">🛠️</span><span class="slot-num">4</span></div>
+        <div class="hotbar-slot" data-slot="5" data-tip="Mob Arena" onclick="selectHotbar(5)"><span class="item">⚔️</span><span class="slot-num">5</span></div>
+        <div class="hotbar-slot" data-slot="6" onclick="selectHotbar(6)"></div>
+        <div class="hotbar-slot" data-slot="7" onclick="selectHotbar(7)"></div>
+        <div class="hotbar-slot" data-slot="8" data-tip="Golden Apple (Regen)" onclick="selectHotbar(8)"><span class="item">🍎</span><span class="slot-num">8</span></div>
+        <div class="hotbar-slot" data-slot="9" data-tip="TNT (Disconnect)" onclick="selectHotbar(9)"><span class="item">🧨</span><span class="slot-num">9</span></div>
+    </div>
+    <div id="explosion-overlay"></div>
+<!-- ================= SETTINGS / SERVER OPTIONS MODAL ================= -->
+    <!-- ================= SETTINGS / SERVER OPTIONS MODAL ================= -->
+    <div id="settings-modal" class="loader-overlay" style="display:none; z-index: 100000; background: rgba(0,0,0,0); transition: background 0.4s ease;">
+        <div id="settings-panel" class="mc-panel genie-closed" style="width: 100%; max-width: 500px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 32px;">
+                <h2 style="color:var(--mc-diamond);">Server Options</h2>
+                <button class="mc-btn" style="padding:4px 12px; background-color:#aa0000; color:#ff5555; border-color:#ff5555 #330000 #330000 #ff5555;" onclick="closeSettings()">X</button>
+            </div>
+            
+            <div style="display:flex; gap: 24px; margin-bottom: 32px;">
+                <!-- Avatar / Skin Upload -->
+                <div style="text-align:center;">
+                    <div class="mc-slot" style="width:100px; height:100px; margin:0 auto 12px auto; overflow:hidden; border-color: var(--mc-diamond);">
+                        <img id="settings-avatar" src="https://api.dicebear.com/7.x/pixel-art/svg?seed=steve" style="width:100%; height:100%; object-fit:cover; image-rendering:pixelated;">
+                    </div>
+                    <label class="mc-btn mc-btn-primary" style="font-size: 1rem; padding: 8px 12px; cursor: pointer;">
+                        Change Skin <input type="file" id="upload-avatar" accept="image/*" style="display:none;" onchange="uploadAvatar(event)">
+                    </label>
+                </div>
+                
+                <!-- Info & Playtime -->
+                <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center;">
+                    <h3 id="settings-name" style="color:#fff; font-size: 1.8rem;">Player1</h3>
+                    <p id="settings-email" style="font-size:1.2rem; color:var(--mc-text-muted); margin-bottom: 16px;">player@vault.com</p>
+                    <div class="status-pill" style="align-self:flex-start; border-color: #ffff55;">
+                        Playtime: <span id="settings-uptime" style="color:#ffff55; margin-left:8px; font-family: var(--font-text); font-size:1.2rem;">0h 0m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Actions -->
+            <div style="border-top: 4px solid var(--mc-border-dark); padding-top: 24px; display:flex; flex-direction:column; gap:12px;">
+                <button class="mc-btn" onclick="promptChangePassword()">Change Password</button>
+                <button class="mc-btn" style="background-color: #550000; border-color: #ff5555 #330000 #330000 #ff5555; color: #ffaa00;" onclick="promptDeleteAccount()">Delete Account</button>
+            </div>
+        </div>
+    </div>
+    <!-- LOAD EXTERNAL MODULE SCRIPT -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
