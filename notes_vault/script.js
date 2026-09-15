@@ -1031,3 +1031,27 @@ function startPlaytimeTracker(dbPlaytime) {
         }
     }, 300000); // 5 mins
 }
+// --- 🎵 JUKEBOX AUDIO ENGINE 🎵 ---
+window.toggleJukebox = () => {
+    const audio = document.getElementById('bg-audio');
+    const btn = document.getElementById('btn-music');
+    const icon = document.getElementById('jukebox-icon');
+    const track = document.getElementById('track-name');
+    
+    // Set volume to a background-appropriate level (30%)
+    audio.volume = 0.3; 
+
+    if(audio.paused) {
+        audio.play();
+        btn.innerText = '⏸️';
+        icon.classList.add('jukebox-playing');
+        track.style.color = '#55ff55';
+        window.toast("Inserted Music Disc: blocks");
+    } else {
+        audio.pause();
+        btn.innerText = '▶️';
+        icon.classList.remove('jukebox-playing');
+        track.style.color = 'var(--mc-text-muted)';
+        window.toast("Music Paused.");
+    }
+};

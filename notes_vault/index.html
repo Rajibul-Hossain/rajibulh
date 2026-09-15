@@ -90,6 +90,22 @@
                         </div>
                         <button onclick="authLogout()" class="mc-btn" style="width:100%;">Quit Game</button>
                     </div>
+                    <!-- JUKEBOX WIDGET -->
+                    <div class="mc-panel interactive" id="jukebox" style="padding: 12px; margin-bottom: 16px; margin-top: 16px; display: flex; align-items: center; justify-content: space-between; background-color: #1a111a; border-color: #3b283b #0a050a #0a050a #3b283b;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="jukebox-icon" id="jukebox-icon" style="font-size: 2rem; filter: grayscale(1);">📻</div>
+                            <div>
+                                <div style="color: var(--mc-diamond); font-family: var(--font-pixel); font-size: 1rem;">Jukebox</div>
+                                <div id="track-name" style="color: var(--mc-text-muted); font-size: 0.8rem; font-family: var(--font-text);">Lofi Study Beats</div>
+                            </div>
+                        </div>
+                        <button class="mc-btn" id="btn-music" onclick="toggleJukebox()" style="padding: 4px 8px; font-size: 1.2rem;">▶️</button>
+                        
+                        <!-- Invisible Audio Engine streaming a 24/7 Lo-Fi Radio -->
+                        <audio id="bg-audio" loop preload="none">
+                            <source src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
+                        </audio>
+                    </div>
                 </div>
             </aside>
             
